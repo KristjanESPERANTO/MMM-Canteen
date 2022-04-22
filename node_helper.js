@@ -17,7 +17,7 @@ module.exports = NodeHelper.create({
       self = this;
       setInterval(function () {
         self.collectData();
-      }, 60 * 1000);
+      }, 60 * 1000 * 30);
     }
   },
 
@@ -28,22 +28,37 @@ module.exports = NodeHelper.create({
     } else {
      today = moment().add(1, "days").format("YYYY-MM-DD");
     }
-    var requestURL = 'http://openmensa.org/api/v2/canteens/'+this.config.canteen+'/days/'+today+'/meals';
-    console.log(requestURL);
     var self = this;
-    request({
-      url: requestURL,
-      json: true
-    }, function(error, response, body) {
-      console.log('statusCode: ', response && response.statusCode);
-      if (error) {
-        console.log(error);
-      } else if (response.statusCode == 404) {
-        console.log("Kantine hat heut dicht!");
-        self.sendSocketNotification("CLOSED", null);
-      } else {
-        self.sendSocketNotification("MEALS", body);
+    let again = false;
+    let extraDays = 1;
+    do{
+      if(again){
+        today= moment().add(extraDays, "days").format("YYYY-MM-DD");
+        extraDays++;
+        again = false;
       }
-    });
+      var requestURL = 'https://openmensa.org/api/v2/canteens/'+this.config.canteen+'/days/'+today+'/meals';
+      //console.log(requestURL) // uncomment for debug purposes
+      request({
+        url: requestURL,
+        json: true
+      }, function(error, response, body) {
+        console.log('statusCode: ', response && response.statusCode);
+        if (error) {
+          console.log(error);
+        } else if (response.statusCode == 404) {
+          //console.log("Kantine hat heut dicht!");
+          console.log("Canteen closed on " + today + ", trying again...");
+          again = true;
+          //self.sendSocketNotification("CLOSED", null);
+        } 
+        else if(response.statusCode == 500){
+          self.sendSocketNotification("API_ERROR", null);
+        }
+        else {
+          self.sendSocketNotification("MEALS", body);
+        }
+      });
+    }while(again);
   }
 });

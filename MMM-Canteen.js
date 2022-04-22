@@ -60,6 +60,10 @@ Module.register("MMM-Canteen", {
       this.log("Mensa hat heute geschlossen!");
       this.closed = true;
     }
+    else if(notification == "API_ERROR"){
+      this.log("[MMM-Canteen] API Error.")
+      this.closed = true;
+    }
     this.updateDom(500);
   },
 
