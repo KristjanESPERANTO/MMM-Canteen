@@ -29,14 +29,10 @@ module.exports = NodeHelper.create({
      today = moment().add(1, "days").format("YYYY-MM-DD");
     }
     var self = this;
-    let again = false;
-    let extraDays = 1;
-    do{
-      if(again){
-        today= moment().add(extraDays, "days").format("YYYY-MM-DD");
-        extraDays++;
-        again = false;
-      }
+    const maxExtraDays = 7;
+    let done = false;
+    for (let extraDays = 0; extraDays < maxExtraDays; extraDays++) {
+      today = moment().add(extraDays,"days").format("YYYY-MM-DD");
       var requestURL = 'https://openmensa.org/api/v2/canteens/'+this.config.canteen+'/days/'+today+'/meals';
       //console.log(requestURL) // uncomment for debug purposes
       request({
@@ -47,18 +43,22 @@ module.exports = NodeHelper.create({
         if (error) {
           console.log(error);
         } else if (response.statusCode == 404) {
-          //console.log("Kantine hat heut dicht!");
           console.log("Canteen closed on " + today + ", trying again...");
-          again = true;
           //self.sendSocketNotification("CLOSED", null);
         } 
         else if(response.statusCode == 500){
           self.sendSocketNotification("API_ERROR", null);
         }
         else {
-          self.sendSocketNotification("MEALS", body);
+          if(!done){
+            done = true;
+            self.sendSocketNotification("EXTRADAYS", extraDays);
+            self.sendSocketNotification("MEALS", body);
+            return;
+          }
         }
       });
-    }while(again);
+    }
+    if(done) return;
   }
 });

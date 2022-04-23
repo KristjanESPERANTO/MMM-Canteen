@@ -37,9 +37,10 @@ Module.register("MMM-Canteen", {
 
   getTemplateData: function() {
       this.log("Updating template data");
-      today: moment().format("DD MM.YYYY");
+      console.log("EXTRA-DAYS: " +  this.extraDays);
     return {
-      today: (moment() < moment(this.config.switchTime, "HH:mm")) ? moment().format("DD.MM.YYYY") : moment().add(1, "days").format("DD.MM.YYYY"),
+      extraDays: this.extraDays,
+      today: moment().add(this.extraDays, "days").format("DD.MM.YYYY"),
       config: this.config,
       loading: this.loading,
       meals: this.meals,
@@ -54,9 +55,12 @@ Module.register("MMM-Canteen", {
       if (payload.length) {
         this.closed = false;
         this.meals = payload;
-        this.log(this.meals);
       }
-    } else if (notification == "CLOSED") {
+    }
+    else if(notification === "EXTRADAYS"){
+      this.extraDays = payload;
+    }
+    else if (notification == "CLOSED") {
       this.log("Mensa hat heute geschlossen!");
       this.closed = true;
     }
