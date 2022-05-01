@@ -1,4 +1,4 @@
-# MMM-Canteen (Updated on 03 March 2020)
+# MMM-Canteen (Updated on 01 May 2022)
 
 MMM-Canteen is a module for the [MagicMirror](https://github.com/MichMich/MagicMirror) project.
 
@@ -10,7 +10,12 @@ It shows the the menu including the prices of canteens from universities in germ
 ## Installation
 Clone the module into your MagicMirror module folder.
 ```
-git clone https://github.com/k-0/MMM-Canteen.git
+git clone https://github.com/y0sh1DE/MMM-Canteen.git
+
+```
+If not done already, install the axios library.
+```
+npm install axios
 
 ```
 
