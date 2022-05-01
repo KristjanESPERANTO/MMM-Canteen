@@ -1,5 +1,5 @@
 var NodeHelper = require('node_helper');
-var request = require('request');
+const axios = require('axios').default;
 var moment = require('moment');
 
 
@@ -21,44 +21,38 @@ module.exports = NodeHelper.create({
     }
   },
 
-  collectData: function () {
+  /*
+  self.sendSocketNotification("EXTRADAYS", extraDays);
+  self.sendSocketNotification("MEALS", body);
+  self.sendSocketNotification("API_ERROR", null);
+  */
+  collectData: async function () {
     var today;
     if (moment() < moment(this.config.switchTime, "HH:mm")) {
      today = moment().format("YYYY-MM-DD");
     } else {
      today = moment().add(1, "days").format("YYYY-MM-DD");
     }
-    var self = this;
-    const maxExtraDays = 7;
+    let self = this;
     let done = false;
-    for (let extraDays = 0; extraDays < maxExtraDays; extraDays++) {
-      today = moment().add(extraDays,"days").format("YYYY-MM-DD");
-      var requestURL = 'https://openmensa.org/api/v2/canteens/'+this.config.canteen+'/days/'+today+'/meals';
-      //console.log(requestURL) // uncomment for debug purposes
-      request({
-        url: requestURL,
-        json: true
-      }, function(error, response, body) {
-        console.log('statusCode: ', response && response.statusCode);
-        if (error) {
-          console.log(error);
-        } else if (response.statusCode == 404) {
-          console.log("Canteen closed on " + today + ", trying again...");
-          //self.sendSocketNotification("CLOSED", null);
-        } 
-        else if(response.statusCode == 500){
-          self.sendSocketNotification("API_ERROR", null);
-        }
-        else {
-          if(!done){
-            done = true;
-            self.sendSocketNotification("EXTRADAYS", extraDays);
-            self.sendSocketNotification("MEALS", body);
-            return;
-          }
-        }
-      });
+    let extraDays = 0;
+    while(!done)
+    {
+      let url = 'http://openmensa.org/api/v2/canteens/'+this.config.canteen+'/days/'+today+'/meals';
+      let meals = null;
+      console.log("[MMM-CANTEEN] Checking for: " + today, " (", url, ")");
+      await axios.get(url).then(function(response){
+        console.log(response.status);
+        done = true;
+        meals = response.data;
+
+        self.sendSocketNotification("EXTRADAYS", extraDays);
+        self.sendSocketNotification("MEALS", meals);
+      }).catch(function (error){
+        console.log("[MMM-Canteen] Mensa closed on ", today, " trying again...");
+        extraDays++;
+        today = moment().add(extraDays, "days").format("YYYY-MM-DD");
+      })
     }
-    if(done) return;
   }
 });
