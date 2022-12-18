@@ -47,7 +47,7 @@ To use this module, add it to the `config.js` file. Here is an example:
     status: "employees",
     switchTime: "16:00"
   }
-}
+},
 ```
 
 ### Configuration options
