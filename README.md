@@ -6,7 +6,7 @@ It shows the the menu including the prices of canteens from universities in Germ
 
 ## Fork
 
-Since [k-0](https://github.com/k-0), the initiator of the module, hasn't reacted to PRs for a long time, I decided to create a fork. I would be happy if k-0 becomes active again and takes over the maintenance of the module again. Until then I recommend everyone to take my fork as I fixed some issues and made improvements.
+Since [k-0](https://github.com/k-0), the initiator of the module, hasn't reacted to PRs for a long time, I decided to create a fork. I would be happy if k-0 becomes active again and takes over the maintenance of the module again. Until then I recommend everyone to take my fork as I fixed some issues and made improvements ([CHANGELOG](CHANGELOG.md)).
 
 ## Screenshot
 
