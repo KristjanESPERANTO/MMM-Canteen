@@ -25,7 +25,7 @@ module.exports = NodeHelper.create({
   async collectData() {
     let today;
     if (moment() < moment(this.config.switchTime, "HH:mm")) {
-      today = moment().add(1, "days").format("YYYY-MM-DD");
+      today = moment().format("YYYY-MM-DD");
     } else {
       today = moment().add(1, "days").format("YYYY-MM-DD");
     }
