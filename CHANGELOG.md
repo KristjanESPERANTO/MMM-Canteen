@@ -10,3 +10,5 @@ First fork version
 - Optimize CSS
 - Optimze installation process
 - Fix issues
+
+Details: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.1.1.0...v.2.0.0
