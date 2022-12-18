@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const NodeHelper = require("node_helper");
 const moment = require("moment");
 const Log = require("logger");
@@ -18,34 +19,49 @@ module.exports = NodeHelper.create({
       const self = this;
       setInterval(() => {
         self.collectData();
-      }, 60 * 1000);
+      }, 10 * 60 * 1000);
     }
   },
 
   async collectData() {
-    let today;
+    let extraDays = 0;
+    let done = false;
+    const data = {};
+
     if (moment() < moment(this.config.switchTime, "HH:mm")) {
-      today = moment().format("YYYY-MM-DD");
+      data.date = moment().format("YYYY-MM-DD");
     } else {
-      today = moment().add(1, "days").format("YYYY-MM-DD");
+      data.date = moment().add(1, "days").format("YYYY-MM-DD");
     }
-    const requestURL = `https://openmensa.org/api/v2/canteens/${this.config.canteen}/days/${today}/meals`;
-    // Log.log(requestURL);
-    const self = this;
 
-    try {
-      const response = await fetch(requestURL);
+    while (extraDays < 7 && !done) {
+      const requestURL = `https://openmensa.org/api/v2/canteens/${this.config.canteen}/days/${data.date}/meals`;
+      // Log.log(requestURL);
+      const self = this;
 
-      if (response.status === 404) {
-        Log.info("Kantine hat heut dicht!");
-        self.sendSocketNotification("CLOSED", null);
-      } else {
-        const data = await response.json();
-        // Log.log(data);
-        self.sendSocketNotification("MEALS", data);
+      try {
+        const response = await fetch(requestURL);
+
+        if (response.status === 404) {
+          Log.info(
+            `[MMM-Canteen] Mensa closed on ${data.date} trying next day…`
+          );
+          data.extraDays = extraDays;
+          self.sendSocketNotification("CLOSED", data);
+          data.date = moment(data.date, "YYYY-MM-DD")
+            .add(1, "days")
+            .format("YYYY-MM-DD");
+          extraDays += 1;
+        } else {
+          Log.info(`[MMM-Canteen] Received menu for ${data.date}.`);
+          data.meals = await response.json();
+          // Log.log(data);
+          self.sendSocketNotification("MEALS", data);
+          done = true;
+        }
+      } catch (error) {
+        Log.error(`[MMM-Canteen] ${error}`);
       }
-    } catch (error) {
-      Log.error(error);
     }
   }
 });

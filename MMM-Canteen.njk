@@ -1,11 +1,11 @@
-<header>{{ config.canteenName }}, {{ today }} </header>
+<header>{{ config.canteenName }}  {{ date }} </header>
 {% if loading %}
   <div class="small dimmed light">
     {{ "LOADING" | safe }}
   </div>
 {% elif closed %}
 <div class="small">
-{{ config.canteenName }} {{" hat am "}}  <br /> {{  today }} {{" geschlossen!" }}
+  Kein Speiseplan für die <br /> nächsten {{ extraDays }} Tage vorfügbar.
 </div>
 {% else %}
   <div class="wrapper">

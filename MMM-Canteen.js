@@ -6,8 +6,8 @@
 Module.register("MMM-Canteen", {
   defaults: {
     updateInterval: 10 * 60 * 1000, // 10 minutes
-    canteen: 838,
-    status: "employees", // choose between ["employees", "students", "pupils", "others"]
+    canteen: 63,
+    status: "employees", // choose between "employees", "students", "pupils" and "others"
     truncate: 100,
     switchTime: "16:00",
     debug: false,
@@ -33,12 +33,10 @@ Module.register("MMM-Canteen", {
   },
 
   getTemplateData() {
-    this.log("Updating template data");
+    Log.log("[MMM-Canteen] Updating template data");
     return {
-      today:
-        moment() < moment(this.config.switchTime, "HH:mm")
-          ? moment().format("DD.MM.YYYY")
-          : moment().add(1, "days").format("DD.MM.YYYY"),
+      date: this.date,
+      extraDays: this.extraDays,
       config: this.config,
       loading: this.loading,
       meals: this.meals,
@@ -47,16 +45,19 @@ Module.register("MMM-Canteen", {
   },
 
   socketNotificationReceived(notification, payload) {
-    Log.info(`Socket Notification received: ${notification}`);
+    Log.info(`[MMM-Canteen] Socket Notification received: ${notification}`);
     this.loading = false;
+    this.date = moment(payload.date, "YYYY-MM-DD").format("DD.MM.YYYY");
+    this.extraDays = payload.extraDays;
     if (notification === "MEALS") {
-      if (payload.length) {
+      if (payload.meals.length) {
         this.closed = false;
-        this.meals = payload;
-        this.log(this.meals);
+        this.meals = payload.meals;
+        // Log.log(`[MMM-Canteen] ${this.meals}`);
       }
     } else if (notification === "CLOSED") {
-      this.log("Mensa hat heute geschlossen!");
+      Log.log("[MMM-Canteen] Mensa hat heute geschlossen!");
+      this.date = "";
       this.closed = true;
     }
     this.updateDom(this.config.animationSpeed);
