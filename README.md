@@ -55,12 +55,12 @@ To use this module, add it to the `config.js` file. Here is an example:
 <!-- prettier-ignore-start -->
 | Option           | Description                   | Type    | Default                                  |
 | ---------------- | ----------------------------- | ------- | ---------------------------------------- |
-| `updateInterval` | Interval to update data       | Integer | `600000` (= 10 minutes)                  |
+| `updateInterval` | Interval to update data       | Integer | `10 * 60 * 1000` (= 10 minutes)          |
 | `canteen`        | ID from the openmensa.org url | Integer | `63` (= Mensa am Park, Uni Leipzig)      |
 | `status`         | Your status  <br> **Possible values:** `"employees"`, `"students"`, `"pupils"`, `"others"` | String | `"employees"` |
 | `truncate`       | Truncate more than x letters  | Integer | `100`                                    |
 | `debug`          | Debugging                     | Boolean | `false`                                  |
-| `canteenName`    | Name of the canteen           | String  | `"Mensa am Park"`                        |
+| `canteenName`    | Name of the canteen           | String  | `"Kantine"`                              |
 | `switchTime`     | Shows the menu from next day, if switchTime < now | Timestamp (HH:mm) | `"16:00"`  |
 | `animationSpeed` | Speed of the update animation (in milliseconds).<br>If you don't want that the module blinks during an update, set the value to `0`. <br> **Possible values:** `0` - `5000` | Integer | `500` |
 <!-- prettier-ignore-end -->
