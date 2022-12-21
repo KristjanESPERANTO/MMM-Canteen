@@ -12,7 +12,8 @@ Module.register("MMM-Canteen", {
     switchTime: "16:00",
     debug: false,
     canteenName: "Kantine",
-    animationSpeed: 500
+    animationSpeed: 500,
+    showVeggieColumn: true
   },
 
   loading: true,

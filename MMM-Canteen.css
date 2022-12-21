@@ -1,7 +1,3 @@
-.MMM-Canteen .title {
-  margin-bottom: 4px;
-}
-
 .MMM-Canteen table {
   max-width: 35vw;
 }
@@ -11,6 +7,11 @@
 }
 
 .MMM-Canteen .price {
+  text-align: center;
+  vertical-align: top;
+}
+
+.MMM-Canteen .veggie {
   text-align: center;
   vertical-align: top;
 }

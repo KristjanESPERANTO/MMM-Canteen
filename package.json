@@ -1,6 +1,6 @@
 {
   "name": "mmm-canteen",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A module for MagicMirror² to display menus from openmensa.org.",
   "repository": "github:KristjanESPERANTO/MMM-Canteen",
   "keywords": [

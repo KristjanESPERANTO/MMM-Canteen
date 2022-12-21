@@ -1,4 +1,4 @@
-<header>{{ config.canteenName }}  {{ date }} </header>
+<header>{{ config.canteenName }}  &nbsp;&nbsp;&nbsp;&nbsp; {{ date }} </header>
 {% if loading %}
   <div class="small dimmed light">
     {{ "LOADING" | safe }}
@@ -14,18 +14,37 @@
         <tr class="bold">
           <td class="title">Gericht</td>
           <td class="price">Preis</td>
+          {% if config.showVeggieColumn  %}
+            <td class="veggie">veggie</td>
+          {% endif %}
         </tr>
       </thead>
       <tbody>
         {% for meal in meals %}
           <tr class="light bright">
-		{% if (meal.prices[config.status] > 0)  %}
-                  <td class="title">{{ meal.name | truncate(config.truncate, true) }}</td>
-                  <td class="price">{{ meal.prices[config.status].toLocaleString("de-DE", {style: "currency", currency: "EUR"}) }}</td>
-		{% else %}
-                  <td class="title">{{ meal.name | truncate(config.truncate, true) }}</td>
-                  <td class="price"></td>
-		{% endif %}
+          {% if (meal.prices[config.status] > 0)  %}
+            <td class="title">{{ meal.name | truncate(config.truncate, true) }}</td>
+            <td class="price">{{ meal.prices[config.status].toLocaleString("de-DE", {style: "currency", currency: "EUR"}) }}</td>
+            
+            {% if config.showVeggieColumn  %}
+              {% if meal.notes.includes("vegan") or meal.category == "Vegan"  %}
+                <td class="veggie vegan">vegan</td>
+              {% elif meal.notes.includes("vegetarisch") or meal.category == "Vegetarisch"  %}
+                <td class="veggie vegetarian">veget.</td>
+              {% else %}
+                <td class="veggie">-</td>
+              {% endif %}
+            {% endif %}
+
+          {% else %}
+            <td class="title">{{ meal.name | truncate(config.truncate, true) }}</td>
+            <td class="price"></td>
+
+            {% if config.showVeggieColumn  %}
+              <td class="veggie"></td>
+            {% endif %}
+
+		      {% endif %}
           </tr>
         {% endfor %}
       </tbody>

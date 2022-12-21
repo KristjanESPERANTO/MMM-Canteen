@@ -1,6 +1,10 @@
 # MMM-Canteen Change Log
 
-## [2.1.0] - 2022-12-21
+## [2.2.0] - 2022-12-21
+
+- Add veggie column
+
+## [2.1.0] - 2022-12-20
 
 - Add support for multiple instances
 
@@ -17,4 +21,4 @@ First fork version
 - Optimze installation process
 - Fix issues
 
-Details: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.1.1.0...v.2.0.0
+Details: <https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.1.1.0...v.2.0.0>

@@ -8,9 +8,13 @@ It shows the the menu including the prices of canteens from universities in Germ
 
 Since [k-0](https://github.com/k-0), the initiator of the module, hasn't reacted to PRs for a long time, I decided to create a fork. I would be happy if k-0 becomes active again and takes over the maintenance of the module again. Until then I recommend everyone to take my fork as I fixed some issues and made improvements ([CHANGELOG](CHANGELOG.md)).
 
-## Screenshot
+## Screenshots
 
-![Example of a canteen in Jena](img/example1.png)
+**Example of a canteen in Leipzig**
+![Example of a canteen in Leipzig](img/example1.png)
+
+**Example of a canteen in Halle with veggie information**
+![Example of a canteen in Halle with veggie information](img/example2.png)|
 
 ## Installation
 
@@ -45,7 +49,8 @@ To use this module, add it to the `config.js` file. Here is an example:
     canteenName: "Mensa am Park",
     canteen: 63,
     status: "employees",
-    switchTime: "15:00"
+    switchTime: "15:00",
+    showVeggieColumn: true
   }
 },
 ```
@@ -74,16 +79,17 @@ It is also possible to add multiple instances. Here is a simple example:
 ### Configuration options
 
 <!-- prettier-ignore-start -->
-| Option           | Description                   | Type    | Default                                  |
-| ---------------- | ----------------------------- | ------- | ---------------------------------------- |
-| `updateInterval` | Interval to update data       | Integer | `10 * 60 * 1000` (= 10 minutes)          |
-| `canteen`        | ID from the openmensa.org url | Integer | `63` (= Mensa am Park, Uni Leipzig)      |
-| `status`         | Your status  <br> **Possible values:** `"employees"`, `"students"`, `"pupils"`, `"others"` | String | `"employees"` |
-| `truncate`       | Truncate more than x letters  | Integer | `100`                                    |
-| `debug`          | Debugging                     | Boolean | `false`                                  |
-| `canteenName`    | Name of the canteen           | String  | `"Kantine"`                              |
-| `switchTime`     | Shows the menu from next day, if switchTime < now | Timestamp (HH:mm) | `"16:00"`  |
-| `animationSpeed` | Speed of the update animation (in milliseconds).<br>If you don't want that the module blinks during an update, set the value to `0`. <br> **Possible values:** `0` - `5000` | Integer | `500` |
+| Option             | Description                   | Type    | Default                                  |
+| ------------------ | ----------------------------- | ------- | ---------------------------------------- |
+| `updateInterval`   | Interval to update data       | Integer | `10 * 60 * 1000` (= 10 minutes)          |
+| `canteen`          | ID from the openmensa.org url | Integer | `63` (= Mensa am Park, Uni Leipzig)      |
+| `status`           | Your status  <br> **Possible values:** `"employees"`, `"students"`, `"pupils"`, `"others"` | String | `"employees"` |
+| `truncate`         | Truncate more than x letters  | Integer | `100`                                    |
+| `canteenName`      | Name of the canteen           | String  | `"Kantine"`                              |
+| `switchTime`       | Shows the menu from next day, if switchTime < now | Timestamp (HH:mm) | `"16:00"`  |
+| `animationSpeed`   | Speed of the update animation (in milliseconds).<br>If you don't want that the module blinks during an update, set the value to `0`. <br> **Possible values:** `0` - `5000` | Integer | `500` |
+| `showVeggieColumn` | Show Veggie Column or not     | Boolean | `true`                                   |
+| `debug`            | Debugging                     | Boolean | `false`                                  |
 <!-- prettier-ignore-end -->
 
 ## Special Thanks
