@@ -4,6 +4,8 @@
 
 - Add support for multiple instances
 
+Details: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.2.0.0...v.2.1.0
+
 ## [2.0.0] - 2022-12-18
 
 First fork version
