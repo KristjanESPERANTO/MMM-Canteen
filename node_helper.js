@@ -14,16 +14,16 @@ module.exports = NodeHelper.create({
 
   socketNotificationReceived(notification, payload) {
     if (notification === "CONFIG") {
-      this.config = payload;
-      this.collectData();
+      this.config = payload.config;
+      this.collectData(payload.identifier);
       const self = this;
       setInterval(() => {
-        self.collectData();
+        self.collectData(payload.identifier);
       }, 10 * 60 * 1000);
     }
   },
 
-  async collectData() {
+  async collectData(identifier) {
     let extraDays = 0;
     let done = false;
     const data = {};
@@ -33,6 +33,8 @@ module.exports = NodeHelper.create({
     } else {
       data.date = moment().add(1, "days").format("YYYY-MM-DD");
     }
+
+    data.identifier = identifier;
 
     while (extraDays < 7 && !done) {
       const requestURL = `https://openmensa.org/api/v2/canteens/${this.config.canteen}/days/${data.date}/meals`;

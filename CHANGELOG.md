@@ -1,6 +1,10 @@
 # MMM-Canteen Change Log
 
-## [2.0.0] - 2022-12-13
+## [2.1.0] - 2022-12-21
+
+- Add support for multiple instances
+
+## [2.0.0] - 2022-12-18
 
 First fork version
 

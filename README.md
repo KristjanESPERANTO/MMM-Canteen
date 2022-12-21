@@ -45,7 +45,28 @@ To use this module, add it to the `config.js` file. Here is an example:
     canteenName: "Mensa am Park",
     canteen: 63,
     status: "employees",
-    switchTime: "16:00"
+    switchTime: "15:00"
+  }
+},
+```
+
+It is also possible to add multiple instances. Here is a simple example:
+
+```javascript
+{
+  module: 'MMM-Canteen',
+  position: 'right',
+  config: {
+    canteenName: 'Mensa 1',
+    canteen: 240
+  }
+},
+{
+  module: 'MMM-Canteen',
+  position: 'right',
+  config: {
+    canteenName: 'Mensa 2',
+    canteen: 241,
   }
 },
 ```
