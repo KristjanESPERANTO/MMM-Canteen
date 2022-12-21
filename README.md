@@ -16,7 +16,7 @@ Since [k-0](https://github.com/k-0), the initiator of the module, hasn't reacted
 
 **Example of a canteen in Halle with veggie information**
 
-![Example of a canteen in Halle with veggie information](img/example2.png)|
+![Example of a canteen in Halle with veggie information](img/example2.png)
 
 ## Installation
 
