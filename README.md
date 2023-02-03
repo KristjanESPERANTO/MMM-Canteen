@@ -10,11 +10,11 @@ Since [k-0](https://github.com/k-0), the initiator of the module, hasn't reacted
 
 ## Screenshots
 
-**Example of a canteen in Leipzig**
+### Example of a canteen in Leipzig
 
 ![Example of a canteen in Leipzig](img/example1.png)
 
-**Example of a canteen in Halle with veggie information**
+### Example of a canteen in Halle with veggie information
 
 ![Example of a canteen in Halle with veggie information](img/example2.png)
 
@@ -61,18 +61,18 @@ It is also possible to add multiple instances. Here is a simple example:
 
 ```javascript
 {
-  module: 'MMM-Canteen',
-  position: 'right',
+  module: "MMM-Canteen",
+  position: "right",
   config: {
-    canteenName: 'Mensa 1',
+    canteenName: "Mensa 1",
     canteen: 240
   }
 },
 {
-  module: 'MMM-Canteen',
-  position: 'right',
+  module: "MMM-Canteen",
+  position: "right",
   config: {
-    canteenName: 'Mensa 2',
+    canteenName: "Mensa 2",
     canteen: 241,
   }
 },
