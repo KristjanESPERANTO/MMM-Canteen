@@ -4,7 +4,6 @@
   "root": true,
   "rules": {
     "selector-class-pattern": null,
-    "prettier/prettier": true,
-    "no-eol-whitespace": true
+    "prettier/prettier": true
   }
 }
