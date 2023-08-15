@@ -19,7 +19,7 @@ It shows the the menu including the prices of canteens from universities in Germ
 Just clone the module into your modules folder of your MagicMirror² and execute `npm install --omit=dev` in the module’s directory:
 
 ```bash
-git clone https://github.com/k-0/MMM-Canteen
+git clone https://github.com/KristjanESPERANTO/MMM-Canteen/
 cd MMM-Canteen
 npm install --omit=dev
 ```
@@ -93,11 +93,12 @@ It is also possible to add multiple instances. Here is a simple example:
 ## Special Thanks
 
 - [Michael Teeuw](https://github.com/MichMich) for creating the inspiring project [MagicMirror²](https://github.com/MichMich/MagicMirror).
+- [k-0](https://github.com/k-0/) for initiating this module. Since he does not react to Pull Requests, I continue to maintain the module as a fork here.
 - The great community of MagicMirror² that keeps this impressive project alive and permanently improves it.
 - All contributors for finding and fixing errors in this module.
 
 ## Contributing
 
-If you find any problems, bugs or have questions, please [open a GitHub issue](https://github.com/k-0/MMM-Canteen/issues) in this repository.
+If you find any problems, bugs or have questions, please [open a GitHub issue](https://github.com/KristjanESPERANTO/MMM-Canteen/issues) in this repository.
 
 Pull requests are of course also very welcome 🙂
