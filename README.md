@@ -6,13 +6,13 @@ It shows the the menu including the prices of canteens from universities in Germ
 
 ## Screenshots
 
-### Example of a canteen in Leipzig
-
-![Example of a canteen in Leipzig](img/example1.png)
-
 ### Example of a canteen in Halle with veggie information
 
-![Example of a canteen in Halle with veggie information](img/example2.png)
+![Example of a canteen in Halle with veggie information](img/example1.png)
+
+### Example of a canteen in Leipzig without veggie information
+
+![Example of a canteen in Leipzig](img/example2.png)
 
 ## Installation
 
