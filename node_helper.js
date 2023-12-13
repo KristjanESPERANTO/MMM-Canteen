@@ -1,14 +1,13 @@
-/* eslint-disable no-await-in-loop */
 const NodeHelper = require("node_helper");
 const moment = require("moment");
 const Log = require("logger");
 
 module.exports = NodeHelper.create({
-  start() {
+  start () {
     Log.log(`Starting module helper: ${this.name}`);
   },
 
-  socketNotificationReceived(notification, payload) {
+  socketNotificationReceived (notification, payload) {
     if (notification === "CONFIG") {
       this.config = payload.config;
       this.collectData(payload.identifier);
@@ -22,15 +21,16 @@ module.exports = NodeHelper.create({
     }
   },
 
-  async collectData(identifier) {
-    let extraDays = 0;
+  async collectData (identifier) {
     let done = false;
+    let extraDays = 0;
     const data = {};
 
     if (moment() < moment(this.config.switchTime, "HH:mm")) {
       data.date = moment().format("YYYY-MM-DD");
     } else {
-      data.date = moment().add(1, "days").format("YYYY-MM-DD");
+      data.date = moment().add(1, "days")
+        .format("YYYY-MM-DD");
     }
 
     data.identifier = identifier;
@@ -44,9 +44,7 @@ module.exports = NodeHelper.create({
         const response = await fetch(requestURL);
 
         if (response.status === 404) {
-          Log.info(
-            `[MMM-Canteen] Mensa closed on ${data.date} trying next day…`
-          );
+          Log.info(`[MMM-Canteen] Mensa closed on ${data.date} trying next day…`);
           data.extraDays = extraDays;
           self.sendSocketNotification("CLOSED", data);
           data.date = moment(data.date, "YYYY-MM-DD")
