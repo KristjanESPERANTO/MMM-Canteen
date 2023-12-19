@@ -45,8 +45,8 @@
     "stylelint-prettier": "^5.0.0"
   },
   "scripts": {
-    "lint": "eslint --config 'eslint.config.mjs' . && stylelint **/*.css && prettier --check .",
-    "lint:fix": "eslint --fix . && stylelint --fix **/*.css && markdownlint . --ignore node_modules --fix && prettier --write .",
+    "lint": "eslint . && stylelint **/*.css  && markdownlint . --ignore node_modules && prettier --check .",
+    "lint:fix": "eslint . --fix && stylelint **/*.css --fix && markdownlint . --ignore node_modules --fix && prettier --write .",
     "test": "npm run lint"
   },
   "lint-staged": {
