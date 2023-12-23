@@ -1,24 +1,11 @@
 const globals = require("globals");
-const eslintPluginNode = require("eslint-plugin-n");
-const eslintPluginEslintPluginRecommended = require("eslint-plugin-eslint-plugin/configs/recommended");
-const importPlugin = require("eslint-plugin-import");
 const {configs: eslintConfigs} = require("@eslint/js");
-const stylistic = require("@stylistic/eslint-plugin");
-const eslintConfigPrettier = require("eslint-config-prettier");
-const eslintPluginPrettier = require("eslint-plugin-prettier");
+const eslintPluginImport = require("eslint-plugin-import");
+const eslintPluginStylistic = require("@stylistic/eslint-plugin");
 
-module.exports = [
-  eslintConfigPrettier,
-  eslintConfigs.all,
-  eslintPluginNode.configs["flat/recommended"],
-  eslintPluginEslintPluginRecommended,
-  stylistic.configs["all-flat"],
+const config = [
   {
-    plugins: {prettier: eslintPluginPrettier},
-    rules: eslintPluginPrettier.configs.recommended.rules
-  },
-  {
-    files: ["**/*.cjs", "**/*.js", "**/*.mjs"],
+    files: ["**/*.js"],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -26,17 +13,19 @@ module.exports = [
       }
     },
     plugins: {
-      import: importPlugin
+      ...eslintPluginStylistic.configs["all-flat"].plugins,
+      import: eslintPluginImport
     },
     rules: {
-      ...importPlugin.configs.recommended.rules,
+      ...eslintConfigs.all.rules,
+      ...eslintPluginImport.configs.recommended.rules,
+      ...eslintPluginStylistic.configs["all-flat"].rules,
+      "capitalized-comments": "off",
       "consistent-this": "off",
       "line-comment-position": "off",
       "max-lines-per-function": ["error", 100],
       "max-statements": ["error", 25],
       "no-await-in-loop": "off",
-      "n/no-missing-require": "off",
-      "n/no-unpublished-require": "off",
       "no-inline-comments": "off",
       "no-magic-numbers": "off",
       "no-undef": "warn",
@@ -53,3 +42,22 @@ module.exports = [
     }
   }
 ];
+
+/*
+ * Set debug to true for testing purposes.
+ * Since some plugins have not yet been optimized for the flat config,
+ * we will be able to optimize this file in the future. It can be helpful
+ * to write the ESLint config to a file and compare it after changes.
+ */
+const debug = false;
+
+if (debug === true) {
+  const FileSystem = require("fs");
+  FileSystem.writeFile("eslint-config-DEBUG.json", JSON.stringify(config, null, 2), (error) => {
+    if (error) {
+      throw error;
+    }
+  });
+}
+
+module.exports = config;
