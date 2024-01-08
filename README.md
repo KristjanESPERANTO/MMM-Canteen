@@ -1,6 +1,6 @@
 # MMM-Canteen
 
-**MMM-Canteen** is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror) project.
+**MMM-Canteen** is a module for the [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) project.
 
 It shows the the menu including the prices of canteens from universities in Germany and Switzerland (based on [openmensa.org](https://openmensa.org)).
 
@@ -92,7 +92,7 @@ It is also possible to add multiple instances. Here is a simple example:
 
 ## Special Thanks
 
-- [Michael Teeuw](https://github.com/MichMich) for creating the inspiring project [MagicMirror²](https://github.com/MichMich/MagicMirror).
+- [Michael Teeuw](https://github.com/MichMich) for creating the inspiring project [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror).
 - [k-0](https://github.com/k-0/) for initiating this module. Since he does not react to Pull Requests, I continue to maintain the module as a fork here.
 - The great community of MagicMirror² that keeps this impressive project alive and permanently improves it.
 - All contributors for finding and fixing errors in this module.
