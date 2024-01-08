@@ -24,7 +24,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "moment": "^2.29.4"
+    "moment": "^2.30.1"
   },
   "devDependencies": {
     "@eslint/js": "latest",
