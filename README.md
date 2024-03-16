@@ -16,26 +16,16 @@ It shows the the menu including the prices of canteens from universities in Germ
 
 ## Installation
 
-Just clone the module into your modules folder of your MagicMirror² and execute `npm install --omit=dev` in the module’s directory:
+Just clone the module into your modules folder of your MagicMirror² and execute `npm ci` in the module’s directory:
 
 ```bash
+cd ~/MagicMirror/modules
 git clone https://github.com/KristjanESPERANTO/MMM-Canteen/
 cd MMM-Canteen
-npm install --omit=dev
+npm ci
 ```
 
-## Update
-
-Go to the module’s folder inside MagicMirror modules folder and pull the latest version from GitHub and install:
-
-```bash
-git pull
-npm install --omit=dev
-```
-
-## Using the module
-
-### Configuration
+## Configuration
 
 To use this module, add it to the `config.js` file. Here is an example:
 
@@ -89,6 +79,16 @@ It is also possible to add multiple instances. Here is a simple example:
 | `showVeggieColumn` | Show Veggie Column or not     | Boolean | `true`                                   |
 | `debug`            | Debugging                     | Boolean | `false`                                  |
 <!-- prettier-ignore-end -->
+
+## Update
+
+Go to the module’s folder inside MagicMirror modules folder and pull the latest version from GitHub and install:
+
+```bash
+cd ~/MagicMirror/modules/MMM-Canteen
+git pull
+npm ci
+```
 
 ## Special Thanks
 
