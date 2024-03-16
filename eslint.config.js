@@ -52,7 +52,7 @@ const config = [
 const debug = false;
 
 if (debug === true) {
-  const FileSystem = require("fs");
+  const FileSystem = require("node:fs");
   FileSystem.writeFile("eslint-config-DEBUG.json", JSON.stringify(config, null, 2), (error) => {
     if (error) {
       throw error;
