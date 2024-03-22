@@ -42,6 +42,10 @@ Module.register(
       return "MMM-Canteen.njk";
     },
 
+    getScripts () {
+      return ["moment.js"];
+    },
+
     getTemplateData () {
       Log.log("[MMM-Canteen] Updating template data");
       return {
