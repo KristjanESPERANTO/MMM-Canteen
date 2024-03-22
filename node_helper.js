@@ -16,7 +16,7 @@ module.exports = NodeHelper.create({
         () => {
           self.collectData(payload.identifier);
         },
-        10 * 60 * 1000
+        this.config.updateInterval
       );
     }
   },
