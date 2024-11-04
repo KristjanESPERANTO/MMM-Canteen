@@ -1,9 +1,5 @@
 /* global Log, Module, moment */
 
-/*
- * MagicMirror²
- * Module: MMM-Canteen
- */
 Module.register(
   "MMM-Canteen",
   {
@@ -72,7 +68,7 @@ Module.register(
           if (payload.meals.length) {
             this.closed = false;
             this.meals = payload.meals;
-            // Log.log(`[MMM-Canteen] ${this.meals}`);
+            Log.debug(`[MMM-Canteen] ${this.meals}`);
           }
         } else if (notification === "CLOSED") {
           Log.log("[MMM-Canteen] Mensa hat heute geschlossen!");
