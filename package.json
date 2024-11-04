@@ -2,16 +2,17 @@
   "name": "mmm-canteen",
   "version": "2.3.0",
   "description": "A module for MagicMirror² to display menus from openmensa.org.",
-  "repository": "github:KristjanESPERANTO/MMM-Canteen",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KristjanESPERANTO/MMM-Canteen.git"
+  },
+  "main": "MMM-Canteen.js",
   "keywords": [
     "magicmirror",
     "canteen",
     "openmensa"
   ],
-  "author": {
-    "name": "Kevin",
-    "url": "https://github.com/k-0/"
-  },
+  "author": "Kevin (https://github.com/k-0/)",
   "contributors": [
     "https://github.com/KristjanESPERANTO/MMM-Canteen/graphs/contributors"
   ],
@@ -27,11 +28,11 @@
     "moment": "^2.30.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
-    "@stylistic/eslint-plugin": "^2.9.0",
-    "eslint": "^9.13.0",
+    "@eslint/js": "^9.14.0",
+    "@stylistic/eslint-plugin": "^2.10.1",
+    "eslint": "^9.14.0",
     "eslint-plugin-import": "^2.31.0",
-    "globals": "^15.11.0",
+    "globals": "^15.12.0",
     "lint-staged": "^15.2.10",
     "markdownlint-cli": "^0.42.0",
     "prettier": "^3.3.3",
