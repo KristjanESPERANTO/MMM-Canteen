@@ -102,3 +102,10 @@ npm ci
 If you find any problems, bugs or have questions, please [open a GitHub issue](https://github.com/KristjanESPERANTO/MMM-Canteen/issues) in this repository.
 
 Pull requests are of course also very welcome 🙂
+
+### Developer commands
+
+- `npm run lint` - Run linting and formatter checks.
+- `npm run lint:fix` - Fix linting and formatter issues.
+- `npm run test` - Run linting and formatter checks + run spelling check.
+- `npm run test:spelling` - Run spelling check.
