@@ -26,7 +26,7 @@ First fork version 🚀
 - Replace deprecated 'request' by 'node-fetch'
 - Some rework like linting and formatting
 - Optimize CSS
-- Optimze installation process
+- Optimize installation process
 - Fix issues
 
 Details: <https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.1.1.0...v.2.0.0>
