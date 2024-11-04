@@ -1,0 +1,29 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "elif",
+    "endfor",
+    "Foerster",
+    "Gericht",
+    "geschlossen",
+    "heute",
+    "Kantine",
+    "Kein",
+    "Kristjan",
+    "MagicMirror",
+    "martius",
+    "nächsten",
+    "nbsp",
+    "openmensa",
+    "Preis",
+    "Speiseplan",
+    "Tage",
+    "Teeuw",
+    "veget.",
+    "vegetarisch",
+    "verfügbar"
+  ],
+  "ignorePaths": ["node_modules/**"],
+  "dictionaries": ["node"]
+}
