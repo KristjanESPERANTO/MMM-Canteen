@@ -1,5 +1,11 @@
 # MMM-Canteen Change Log
 
+## [2.3.1] - 2024-11-04 - Maintenance update
+
+- Add spell check
+- Update dependencies
+- Update license file
+
 ## [2.3.0] - 2023-08-15
 
 - Remove 'node-fetch' dependency (use build-in fetch API instead)
