@@ -114,3 +114,11 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 - `npm run release` - Bump version for release.
 - `npm run test` - Run linting and formatter checks + run spelling check.
 - `npm run test:spelling` - Run spelling check.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+
+## Changelog
+
+All notable changes to this project will be documented in the [CHANGELOG.md](./CHANGELOG.md) file.
