@@ -1,11 +1,37 @@
 import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginJs from "@eslint/js";
+import eslintPluginJson from "@eslint/json";
+import eslintPluginMarkdown from "@eslint/markdown";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 
 const config = [
   eslintPluginImport.flatConfigs.recommended,
   eslintPluginJs.configs.all,
+  ...eslintPluginMarkdown.configs.recommended,
+  {
+    "files": ["**/*.md"],
+    "language": "markdown/gfm",
+    "plugins": {
+      eslintPluginMarkdown
+    },
+    "rules": {
+      "logical-assignment-operators": "off",
+      "max-lines-per-function": "off",
+      "no-irregular-whitespace": "off"
+    }
+  },
+  {
+    "files": ["**/*.json"],
+    "ignores": ["package.json", "package-lock.json"],
+    "language": "json/json",
+    ...eslintPluginJson.configs.recommended,
+    "rules": {
+      "logical-assignment-operators": "off",
+      "max-lines-per-function": "off",
+      "no-irregular-whitespace": "off"
+    }
+  },
   {
     "files": ["**/*.js"],
     "languageOptions": {
