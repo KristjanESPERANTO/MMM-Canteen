@@ -23,19 +23,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Remove 'node-fetch' dependency (use build-in fetch API instead)
 
-Details: <https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.2.2.0...v.2.3.0>
-
 ## [2.2.0] - 2022-12-21
 
 - Add veggie column 🌱
 
-Details: <https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.2.1.0...v.2.2.0>
-
 ## [2.1.0] - 2022-12-20
 
 - Add support for multiple instances 🙂
-
-Details: <https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v.2.0.0...v.2.1.0>
 
 ## [2.0.0] - 2022-12-18
 
