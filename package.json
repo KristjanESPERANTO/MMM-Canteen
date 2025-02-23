@@ -2,27 +2,36 @@
   "name": "mmm-canteen",
   "version": "2.3.2",
   "description": "A module for MagicMirror² to display menus from openmensa.org.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/KristjanESPERANTO/MMM-Canteen.git"
-  },
-  "main": "MMM-Canteen.js",
   "keywords": [
     "magicmirror",
     "canteen",
     "openmensa"
   ],
+  "homepage": "https://github.com/KristjanESPERANTO/MMM-Canteen#readme",
+  "bugs": {
+    "url": "https://github.com/KristjanESPERANTO/MMM-Canteen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KristjanESPERANTO/MMM-Canteen.git"
+  },
+  "license": "MIT",
   "author": "Kevin (https://github.com/k-0/)",
   "contributors": [
     "https://github.com/KristjanESPERANTO/MMM-Canteen/graphs/contributors"
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/KristjanESPERANTO/MMM-Canteen/issues"
+  "main": "MMM-Canteen.js",
+  "scripts": {
+    "lint": "eslint && stylelint **/*.css  && markdownlint . --ignore node_modules && prettier --check .",
+    "lint:fix": "eslint --fix && stylelint **/*.css --fix && markdownlint . --ignore node_modules --fix && prettier --write .",
+    "release": "npx bumpp --no-push",
+    "test": "npm run lint && npm run test:spelling",
+    "test:spelling": "cspell ."
   },
-  "homepage": "https://github.com/KristjanESPERANTO/MMM-Canteen#readme",
-  "engines": {
-    "node": ">=18"
+  "lint-staged": {
+    "*.css": "stylelint --fix",
+    "*.js": "eslint --cache --fix",
+    "*.md": "markdownlint --ignore node_modules --fix"
   },
   "dependencies": {
     "moment": "^2.30.1"
@@ -43,16 +52,7 @@
     "stylelint-config-standard": "^37.0.0",
     "stylelint-prettier": "^5.0.3"
   },
-  "scripts": {
-    "lint": "eslint && stylelint **/*.css  && markdownlint . --ignore node_modules && prettier --check .",
-    "lint:fix": "eslint --fix && stylelint **/*.css --fix && markdownlint . --ignore node_modules --fix && prettier --write .",
-    "release": "npx bumpp --no-push",
-    "test": "npm run lint && npm run test:spelling",
-    "test:spelling": "cspell ."
-  },
-  "lint-staged": {
-    "*.css": "stylelint --fix",
-    "*.js": "eslint --cache --fix",
-    "*.md": "markdownlint --ignore node_modules --fix"
+  "engines": {
+    "node": ">=18"
   }
 }
