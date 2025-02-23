@@ -44,8 +44,8 @@
     "stylelint-prettier": "^5.0.3"
   },
   "scripts": {
-    "lint": "eslint . && stylelint **/*.css  && markdownlint . --ignore node_modules && prettier --check .",
-    "lint:fix": "eslint . --fix && stylelint **/*.css --fix && markdownlint . --ignore node_modules --fix && prettier --write .",
+    "lint": "eslint && stylelint **/*.css  && markdownlint . --ignore node_modules && prettier --check .",
+    "lint:fix": "eslint --fix && stylelint **/*.css --fix && markdownlint . --ignore node_modules --fix && prettier --write .",
     "release": "npx bumpp --no-push",
     "test": "npm run lint && npm run test:spelling",
     "test:spelling": "cspell ."
