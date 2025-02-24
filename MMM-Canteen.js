@@ -1,4 +1,4 @@
-/* global Log, Module, moment */
+/* global dayjs, Log, Module */
 
 Module.register(
   "MMM-Canteen",
@@ -39,7 +39,7 @@ Module.register(
     },
 
     getScripts () {
-      return ["moment.js"];
+      return [this.file("node_modules/dayjs/dayjs.min.js")];
     },
 
     getTemplateData () {
@@ -58,7 +58,7 @@ Module.register(
       if (this.identifier === payload.identifier) {
         Log.info(`[MMM-Canteen] Socket Notification received: ${notification}`);
         this.loading = false;
-        this.date = moment(
+        this.date = dayjs(
           payload.date,
           "YYYY-MM-DD"
         ).format("DD.MM.YYYY");

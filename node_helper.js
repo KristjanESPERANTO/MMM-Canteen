@@ -1,5 +1,5 @@
 const NodeHelper = require("node_helper");
-const moment = require("moment");
+const dayjs = require("dayjs");
 const Log = require("logger");
 
 module.exports = NodeHelper.create({
@@ -26,10 +26,10 @@ module.exports = NodeHelper.create({
     let extraDays = 0;
     const data = {};
 
-    if (moment() < moment(this.config.switchTime, "HH:mm")) {
-      data.date = moment().format("YYYY-MM-DD");
+    if (dayjs() < dayjs(this.config.switchTime, "HH:mm")) {
+      data.date = dayjs().format("YYYY-MM-DD");
     } else {
-      data.date = moment().add(1, "days")
+      data.date = dayjs().add(1, "days")
         .format("YYYY-MM-DD");
     }
 
@@ -47,7 +47,7 @@ module.exports = NodeHelper.create({
           Log.info(`[MMM-Canteen] Mensa closed on ${data.date} trying next day…`);
           data.extraDays = extraDays;
           self.sendSocketNotification("CLOSED", data);
-          data.date = moment(data.date, "YYYY-MM-DD")
+          data.date = dayjs(data.date, "YYYY-MM-DD")
             .add(1, "days")
             .format("YYYY-MM-DD");
           extraDays += 1;
