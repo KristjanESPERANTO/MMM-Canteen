@@ -2,7 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.3.3] - 2025-02-24
+
+### Changed
+
+- Replace `moment.js` by `day.js`
+- chore - Update devDependencies
+- chore - Simplify ESLint calls
+- chore - Replace `eslint-plugin-import` with `eslint-plugin-import-x`
+- chore - Sort `package.json` keys
+
+### Added
+
+- chore - Add License and Changelog sections to README
+- chore - Add GitHub workflow
 
 ## [2.3.2] - 2024-12-17 - Maintenance update
 
@@ -42,6 +58,7 @@ First fork version 🚀
 - Optimize installation process
 - Fix issues
 
+[2.3.3]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.3.2...v2.3.3
 [2.3.2]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.3.1...v2.3.2
 [2.3.1]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.2.0...v2.3.0
