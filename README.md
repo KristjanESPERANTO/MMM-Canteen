@@ -30,38 +30,38 @@ npm ci
 To use this module, add it to the `config.js` file. Here is an example:
 
 ```javascript
-{
-  module: "MMM-Canteen",
-  position: "bottom_center",
-  config: {
-    canteenName: "Mensa am Park",
-    canteen: 63,
-    status: "employees",
-    switchTime: "15:00",
-    showVeggieColumn: true
-  }
-},
+    {
+      module: "MMM-Canteen",
+      position: "bottom_center",
+      config: {
+        canteenName: "Mensa am Park",
+        canteen: 63,
+        status: "employees",
+        switchTime: "15:00",
+        showVeggieColumn: true
+      }
+    },
 ```
 
 It is also possible to add multiple instances. Here is a simple example:
 
 ```javascript
-{
-  module: "MMM-Canteen",
-  position: "right",
-  config: {
-    canteenName: "Mensa 1",
-    canteen: 240
-  }
-},
-{
-  module: "MMM-Canteen",
-  position: "right",
-  config: {
-    canteenName: "Mensa 2",
-    canteen: 241,
-  }
-},
+    {
+      module: "MMM-Canteen",
+      position: "right",
+      config: {
+        canteenName: "Mensa 1",
+        canteen: 240
+      }
+    },
+    {
+      module: "MMM-Canteen",
+      position: "right",
+      config: {
+        canteenName: "Mensa 2",
+        canteen: 241,
+      }
+    },
 ```
 
 ### Configuration options
