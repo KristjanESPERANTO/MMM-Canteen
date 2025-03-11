@@ -48,7 +48,7 @@ It is also possible to add multiple instances. Here is a simple example:
 ```javascript
     {
       module: "MMM-Canteen",
-      position: "right",
+      position: "top_left",
       config: {
         canteenName: "Mensa 1",
         canteen: 240
@@ -56,7 +56,7 @@ It is also possible to add multiple instances. Here is a simple example:
     },
     {
       module: "MMM-Canteen",
-      position: "right",
+      position: "top_right",
       config: {
         canteenName: "Mensa 2",
         canteen: 241,
