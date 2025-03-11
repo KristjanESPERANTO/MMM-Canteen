@@ -1,25 +1,27 @@
-.MMM-Canteen table {
-  max-width: 35vw;
-}
+.MMM-Canteen {
+  table {
+    max-width: 35vw;
+  }
 
-.MMM-Canteen table .title {
-  text-align: left;
-}
+  table .title {
+    text-align: left;
+  }
 
-.MMM-Canteen .price {
-  text-align: center;
-  vertical-align: top;
-}
+  .price {
+    text-align: center;
+    vertical-align: top;
+  }
 
-.MMM-Canteen .veggie {
-  text-align: center;
-  vertical-align: top;
-}
+  .veggie {
+    text-align: center;
+    vertical-align: top;
+  }
 
-.MMM-Canteen tbody td {
-  padding: 5px;
-}
+  tbody td {
+    padding: 5px;
+  }
 
-.MMM-Canteen tbody tr:nth-of-type(odd) td {
-  background-color: #ffffff09;
+  tbody tr:nth-of-type(odd) td {
+    background-color: #ffffff09;
+  }
 }
