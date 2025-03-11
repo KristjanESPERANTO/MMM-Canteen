@@ -1,10 +1,7 @@
 const config = {
-  "configBasedir": "./",
-  "extends": ["stylelint-config-standard"],
-  "plugins": ["stylelint-prettier"],
+  "extends": ["stylelint-config-standard", "stylelint-prettier/recommended"],
   "root": true,
   "rules": {
-    "prettier/prettier": true,
     "selector-class-pattern": null
   }
 };
