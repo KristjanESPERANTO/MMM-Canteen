@@ -1,4 +1,4 @@
-/* global dayjs, Log, Module */
+/* global config, Log, Module */
 
 Module.register(
   "MMM-Canteen",
@@ -38,10 +38,6 @@ Module.register(
       return "MMM-Canteen.njk";
     },
 
-    getScripts () {
-      return [this.file("node_modules/dayjs/dayjs.min.js")];
-    },
-
     getTemplateData () {
       Log.log("[MMM-Canteen] Updating template data");
       return {
@@ -58,10 +54,8 @@ Module.register(
       if (this.identifier === payload.identifier) {
         Log.info(`[MMM-Canteen] Socket Notification received: ${notification}`);
         this.loading = false;
-        this.date = dayjs(
-          payload.date,
-          "YYYY-MM-DD"
-        ).format("DD.MM.YYYY");
+        const date = new Date(payload.date);
+        this.date = date.toLocaleDateString(config.locale || config.language);
         this.extraDays = payload.extraDays;
 
         if (notification === "MEALS") {

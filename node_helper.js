@@ -1,6 +1,6 @@
 const NodeHelper = require("node_helper");
-const dayjs = require("dayjs");
 const Log = require("logger");
+const {Temporal} = require("temporal-polyfill");
 
 module.exports = NodeHelper.create({
   start () {
@@ -25,15 +25,16 @@ module.exports = NodeHelper.create({
     let done = false;
     let extraDays = 0;
     const data = {};
-    const now = dayjs();
-    const [switchTimeHour, switchTimeMinute] = this.config.switchTime.split(":");
-    const switchTime = now.hour(switchTimeHour).minute(switchTimeMinute);
 
-    if (now < switchTime) {
-      data.date = dayjs().format("YYYY-MM-DD");
+    const now = Temporal.Now.plainDateTimeISO();
+    const [switchTimeHour, switchTimeMinute] = this.config.switchTime.split(":");
+    const switchTime = now.with({hour: switchTimeHour, minute: switchTimeMinute});
+    const isBeforeSwitchTime = Temporal.PlainTime.compare(now, switchTime) < 0;
+
+    if (isBeforeSwitchTime) {
+      data.date = Temporal.PlainDate.from(now);
     } else {
-      data.date = dayjs().add(1, "days")
-        .format("YYYY-MM-DD");
+      data.date = Temporal.PlainDate.from(now).add({days: 1});
     }
 
     data.identifier = identifier;
@@ -50,9 +51,7 @@ module.exports = NodeHelper.create({
           Log.info(`[MMM-Canteen] Mensa closed on ${data.date} trying next day…`);
           data.extraDays = extraDays;
           self.sendSocketNotification("CLOSED", data);
-          data.date = dayjs(data.date, "YYYY-MM-DD")
-            .add(1, "days")
-            .format("YYYY-MM-DD");
+          data.date = Temporal.PlainDate.from(data.date).add({days: 1});
           extraDays += 1;
         } else {
           Log.info(`[MMM-Canteen] Received menu for ${data.date}.`);
