@@ -41,7 +41,7 @@ module.exports = NodeHelper.create({
 
     while (extraDays < 7 && !done) {
       const requestURL = `https://openmensa.org/api/v2/canteens/${this.config.canteen}/days/${data.date}/meals`;
-      // Log.log(`[MMM-Canteen] ${requestURL}`);
+      Log.debug(`[MMM-Canteen] requestURL: ${requestURL}`);
       const self = this;
 
       try {
@@ -56,7 +56,7 @@ module.exports = NodeHelper.create({
         } else {
           Log.info(`[MMM-Canteen] Received menu for ${data.date}.`);
           data.meals = await response.json();
-          // Log.log(data);
+          Log.debug("MEALS", data);
           self.sendSocketNotification("MEALS", data);
           done = true;
         }
