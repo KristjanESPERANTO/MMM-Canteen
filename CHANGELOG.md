@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2025-03-12
+
+### Fixed
+
+- Fix switchTime bug (seems it appeared with the switch to dayjs).
+
+### Changed
+
+- Replace `dayjs` by `Temporal` API
+- Display date according to the `locale` value indicated in the config.js file
+- chore - Disable no-duplicate-heading rule in markdownlint
+- chore - Improve logging
+
 ## [2.3.4] - 2025-03-11
 
 ### Fixed
@@ -70,6 +83,7 @@ First fork version 🚀
 - Optimize installation process
 - Fix issues
 
+[2.4.0]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.3.4...v2.4.0
 [2.3.4]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.3.3...v2.3.4
 [2.3.3]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.3.2...v2.3.3
 [2.3.2]: https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.3.1...v2.3.2
