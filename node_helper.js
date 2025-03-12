@@ -25,8 +25,11 @@ module.exports = NodeHelper.create({
     let done = false;
     let extraDays = 0;
     const data = {};
+    const now = dayjs();
+    const [switchTimeHour, switchTimeMinute] = this.config.switchTime.split(":");
+    const switchTime = now.hour(switchTimeHour).minute(switchTimeMinute);
 
-    if (dayjs() < dayjs(this.config.switchTime, "HH:mm")) {
+    if (now < switchTime) {
       data.date = dayjs().format("YYYY-MM-DD");
     } else {
       data.date = dayjs().add(1, "days")
