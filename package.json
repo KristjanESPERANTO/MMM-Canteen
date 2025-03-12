@@ -33,9 +33,6 @@
     "*.js": "eslint --cache --fix",
     "*.md": "markdownlint --ignore node_modules --fix"
   },
-  "dependencies": {
-    "temporal-polyfill": "^0.3.0-beta.1"
-  },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
     "@eslint/json": "^0.10.0",

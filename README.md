@@ -16,13 +16,11 @@ It shows the menu including the prices of canteens from universities in Germany 
 
 ## Installation
 
-Just clone the module into your modules directory of your MagicMirror² and execute `npm ci` in the module’s directory:
+Just clone the module into your modules directory:
 
 ```bash
 cd ~/MagicMirror/modules
 git clone https://github.com/KristjanESPERANTO/MMM-Canteen/
-cd MMM-Canteen
-npm ci
 ```
 
 ## Configuration
@@ -82,12 +80,11 @@ It is also possible to add multiple instances. Here is a simple example:
 
 ## Update
 
-Go to the module’s directory and pull the latest version from GitHub and install:
+Go to the module’s directory and pull the latest version from GitHub:
 
 ```bash
 cd ~/MagicMirror/modules/MMM-Canteen
 git pull
-npm ci
 ```
 
 ## Special Thanks
