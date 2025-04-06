@@ -1,12 +1,12 @@
-import eslintPluginImport from "eslint-plugin-import-x";
 import eslintPluginJs from "@eslint/js";
 import eslintPluginJson from "@eslint/json";
 import eslintPluginMarkdown from "@eslint/markdown";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
+import {flatConfigs as importConfigs} from "eslint-plugin-import-x";
 
 const config = [
-  eslintPluginImport.flatConfigs.recommended,
+  importConfigs.recommended,
   eslintPluginJs.configs.all,
   ...eslintPluginMarkdown.configs.recommended,
   {
