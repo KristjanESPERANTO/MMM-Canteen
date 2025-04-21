@@ -106,6 +106,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ### Developer commands
 
+- `npm install` - Install development dependencies.
 - `npm run lint` - Run linting and formatter checks.
 - `npm run lint:fix` - Fix linting and formatter issues.
 - `npm run release` - Bump version for release.
