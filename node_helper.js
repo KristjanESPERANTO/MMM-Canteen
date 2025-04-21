@@ -10,10 +10,10 @@ module.exports = NodeHelper.create({
     if (notification === "CONFIG") {
       this.config = payload.config;
       this.collectData(payload.identifier);
-      const self = this;
+      const that = this;
       setInterval(
         () => {
-          self.collectData(payload.identifier);
+          that.collectData(payload.identifier);
         },
         this.config.updateInterval
       );
@@ -42,7 +42,7 @@ module.exports = NodeHelper.create({
     while (extraDays < 7 && !done) {
       const requestURL = `https://openmensa.org/api/v2/canteens/${this.config.canteen}/days/${data.date}/meals`;
       Log.debug(`[MMM-Canteen] requestURL: ${requestURL}`);
-      const self = this;
+      const that = this;
 
       try {
         const response = await fetch(requestURL);
@@ -50,7 +50,7 @@ module.exports = NodeHelper.create({
         if (response.status === 404) {
           Log.info(`[MMM-Canteen] Mensa closed on ${data.date} trying next day…`);
           data.extraDays = extraDays;
-          self.sendSocketNotification("CLOSED", data);
+          that.sendSocketNotification("CLOSED", data);
           date.setDate(date.getDate() + 1);
           data.date = new Date(date)
             .toISOString()
@@ -60,7 +60,7 @@ module.exports = NodeHelper.create({
           Log.info(`[MMM-Canteen] Received menu for ${data.date}.`);
           data.meals = await response.json();
           Log.debug("MEALS", data);
-          self.sendSocketNotification("MEALS", data);
+          that.sendSocketNotification("MEALS", data);
           done = true;
         }
       } catch (error) {
