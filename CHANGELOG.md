@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.3](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.5.2...v2.5.3) - 2025-05-04 - Maintenance update
+
+### Changed
+
+- chore: refactor ESLint config to use `defineConfig` and cleanup rules
+- chore: remove `engines` field from `package.json`. Since older Node versions reached EOL a long time ago, this no longer makes much sense.
+- chore: remove unused release script
+- chore: setup `husky` and `lint-staged`
+- chore: update devDependencies
+- chore: use `node --run` instead of `npm run` for CI and development command
+
 ## [2.5.2](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.5.1...v2.5.2) - 2025-04-21
 
 ### Changed
