@@ -109,7 +109,6 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 - `npm install` - Install development dependencies.
 - `node --run lint` - Run linting and formatter checks.
 - `node --run lint:fix` - Fix linting and formatter issues.
-- `node --run release` - Bump version for release.
 - `node --run test` - Run linting and formatter checks + run spelling check.
 - `node --run test:spelling` - Run spelling check.
 
