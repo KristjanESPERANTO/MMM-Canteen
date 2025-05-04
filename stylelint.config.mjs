@@ -1,7 +1,7 @@
 const config = {
-  "extends": ["stylelint-config-standard", "stylelint-prettier/recommended"],
-  "root": true,
-  "rules": {
+  extends: ["stylelint-config-standard", "stylelint-prettier/recommended"],
+  root: true,
+  rules: {
     "selector-class-pattern": null
   }
 };
