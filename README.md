@@ -36,7 +36,9 @@ To use this module, add it to the `config.js` file. Here is an example:
         canteen: 63,
         status: "employees",
         switchTime: "15:00",
-        showVeggieColumn: true
+        showVeggieColumn: true,
+        showOnlyKeywords: ["vegan", "vegetarisch", "vegetarische"],
+        blacklistKeywords: []
       }
     },
 ```
@@ -65,17 +67,19 @@ It is also possible to add multiple instances. Here is a simple example:
 ### Configuration options
 
 <!-- prettier-ignore-start -->
-| Option             | Description                   | Type    | Default                                  |
-| ------------------ | ----------------------------- | ------- | ---------------------------------------- |
-| `updateInterval`   | Interval to update data       | Integer | `10 * 60 * 1000` (= 10 minutes)          |
-| `canteen`          | ID from the openmensa.org url | Integer | `63` (= Mensa am Park, Uni Leipzig)      |
-| `status`           | Your status  <br> **Possible values:** `"employees"`, `"students"`, `"pupils"`, `"others"` | String | `"employees"` |
-| `truncate`         | Truncate more than x letters  | Integer | `100`                                    |
-| `canteenName`      | Name of the canteen           | String  | `"Kantine"`                              |
-| `switchTime`       | Shows the menu from next day, if switchTime < now | Timestamp (HH:mm) | `"16:00"`  |
-| `animationSpeed`   | Speed of the update animation (in milliseconds).<br>If you don't want that the module blinks during an update, set the value to `0`. <br> **Possible values:** `0` - `5000` | Integer | `500` |
-| `showVeggieColumn` | Show Veggie Column or not     | Boolean | `true`                                   |
-| `debug`            | Debugging                     | Boolean | `false`                                  |
+| Option             | Description                                                                                                                                                                 | Type              | Default                             |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|-------------------------------------|
+| `updateInterval`   | Interval to update data                                                                                                                                                     | Integer           | `10 * 60 * 1000` (= 10 minutes)     |
+| `canteen`          | ID from the openmensa.org url                                                                                                                                               | Integer           | `63` (= Mensa am Park, Uni Leipzig) |
+| `status`           | Your status  <br> **Possible values:** `"employees"`, `"students"`, `"pupils"`, `"others"`                                                                                  | String            | `"employees"`                       |
+| `truncate`         | Truncate more than x letters                                                                                                                                                | Integer           | `100`                               |
+| `canteenName`      | Name of the canteen                                                                                                                                                         | String            | `"Kantine"`                         |
+| `switchTime`       | Shows the menu from next day, if switchTime < now                                                                                                                           | Timestamp (HH:mm) | `"16:00"`                           |
+| `animationSpeed`   | Speed of the update animation (in milliseconds).<br>If you don't want that the module blinks during an update, set the value to `0`. <br> **Possible values:** `0` - `5000` | Integer           | `500`                               |
+| `showVeggieColumn` | Show Veggie Column or not                                                                                                                                                   | Boolean           | `true`                              |
+| `showOnlyKeywords` | Show only meals with case-insensitive keywords in notes or category                                                                                                         | String[]          | `["vegan", "vegetarisch", "vegetarische"]`                                |
+| `blacklistKeywords` | Don't show meals with these case-insensitive keywords in notes or category                                                                                                  | String[]          | `[]`                                |
+| `debug`            | Debugging                                                                                                                                                                   | Boolean           | `false`                             |
 <!-- prettier-ignore-end -->
 
 ## Update

@@ -12,7 +12,9 @@ Module.register(
       debug: false,
       canteenName: "Kantine",
       animationSpeed: 500,
-      showVeggieColumn: true
+      showVeggieColumn: true,
+      showOnlyKeywords: ["vegan", "vegetarisch", "vegetarische"],
+      blacklistKeywords: []
     },
 
     loading: true,
@@ -61,6 +63,13 @@ Module.register(
         if (notification === "MEALS") {
           if (payload.meals.length) {
             this.closed = false;
+
+            // Show only keywords
+            payload.meals = filter(payload.meals, meal => isInMeal(meal, this.config.showOnlyKeywords) ? this.config.showOnlyKeywords : true)
+
+            // Blacklist keywords
+            payload.meals = filter(payload.meals, meal => !isInMeal(meal, this.config.blacklistKeywords) ? this.config.blacklistKeywords : true)
+
             this.meals = payload.meals;
             Log.debug(`[MMM-Canteen] ${this.meals}`);
           }
@@ -80,3 +89,12 @@ Module.register(
     }
   }
 );
+
+function isInMeal(meal, showOnlyKeywords) {
+  for (const keyword of showOnlyKeywords) {
+    if (meal.notes.lower().includes(keyword.lower()) || meal.category.lower().includes(keyword.lower())) {
+      return true;
+    }
+  }
+  return false;
+}
