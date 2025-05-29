@@ -9,7 +9,6 @@ Module.register(
       status: "employees", // Choose between "employees", "students", "pupils" and "others"
       truncate: 100,
       switchTime: "16:00",
-      debug: false,
       canteenName: "Kantine",
       animationSpeed: 500,
       showVeggieColumn: false,
@@ -92,12 +91,6 @@ Module.register(
         }
       }
     },
-
-    log(msg) {
-      if (this.config && this.config.debug) {
-        Log.info(`${this.name}: ${JSON.stringify(msg)}`);
-      }
-    }
   }
 );
 

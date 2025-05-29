@@ -79,7 +79,6 @@ It is also possible to add multiple instances. Here is a simple example:
 | `showVeggieColumn` | Show Veggie Column or not                                                                                                                                                   | Boolean           | `true`                              |
 | `showOnlyKeywords` | Show only meals with case-insensitive keywords in notes or category                                                                                                         | String[]          | `["vegan", "vegetarisch", "vegetarische"]`                                |
 | `blacklistKeywords` | Don't show meals with these case-insensitive keywords in notes or category                                                                                                  | String[]          | `[]`                                |
-| `debug`            | Debugging                                                                                                                                                                   | Boolean           | `false`                             |
 <!-- prettier-ignore-end -->
 
 ## Update
