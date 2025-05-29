@@ -4,7 +4,7 @@ Module.register(
   "MMM-Canteen",
   {
     defaults: {
-      updateInterval: 10 * 60 * 1000, // 10 minutes
+      updateInterval: 20 * 60 * 1000, // 20 minutes
       canteen: 63,
       status: "employees", // Choose between "employees", "students", "pupils" and "others"
       truncate: 100,
@@ -12,8 +12,8 @@ Module.register(
       debug: false,
       canteenName: "Kantine",
       animationSpeed: 500,
-      showVeggieColumn: true,
-      showOnlyKeywords: ["vegan", "vegetarisch", "vegetarische"],
+      showVeggieColumn: false,
+      showOnlyKeywords: [],
       blacklistKeywords: []
     },
 
@@ -21,26 +21,35 @@ Module.register(
     closed: false,
     meals: [],
 
-    start () {
+    start() {
       Log.info(`Starting module: ${this.name} with identifier: ${this.identifier}`);
+      this.loadData();
+      this.scheduleUpdate();
+      this.updateDom();
+    },
+
+    scheduleUpdate() {
+      setInterval(() => {
+        this.loadData();
+      }, this.config.updateInterval);
+    },
+
+    loadData() {
       this.sendSocketNotification(
-        "CONFIG",
-        {
-          config: this.config,
-          identifier: this.identifier
-        }
+        `CANTEEN_REQUEST-${this.identifier}`,
+        this.config,
       );
     },
 
-    getStyles () {
+    getStyles() {
       return ["MMM-Canteen.css"];
     },
 
-    getTemplate () {
+    getTemplate() {
       return "MMM-Canteen.njk";
     },
 
-    getTemplateData () {
+    getTemplateData() {
       Log.log("[MMM-Canteen] Updating template data");
       return {
         date: this.date,
@@ -52,37 +61,39 @@ Module.register(
       };
     },
 
-    socketNotificationReceived (notification, payload) {
-      if (this.identifier === payload.identifier) {
-        Log.info(`[MMM-Canteen] Socket Notification received: ${notification}`);
+    socketNotificationReceived(notificationIdentifier, payload) {
+      if (notificationIdentifier === `CANTEEN_RESPONSE-CLOSED-${this.identifier}`) {
         this.loading = false;
         const date = new Date(payload.date);
         this.date = date.toLocaleDateString(config.locale || config.language);
         this.extraDays = payload.extraDays;
-
-        if (notification === "MEALS") {
-          if (payload.meals.length) {
-            this.closed = false;
-
-            // Show only keywords
-            payload.meals = filter(payload.meals, meal => isInMeal(meal, this.config.showOnlyKeywords) ? this.config.showOnlyKeywords : true)
-
-            // Blacklist keywords
-            payload.meals = filter(payload.meals, meal => !isInMeal(meal, this.config.blacklistKeywords) ? this.config.blacklistKeywords : true)
-
-            this.meals = payload.meals;
-            Log.debug(`[MMM-Canteen] ${this.meals}`);
-          }
-        } else if (notification === "CLOSED") {
-          Log.log("[MMM-Canteen] Mensa hat heute geschlossen!");
-          this.date = "";
-          this.closed = true;
-        }
+        Log.log("[MMM-Canteen] Mensa hat heute geschlossen!");
+        this.date = "";
+        this.closed = true;
         this.updateDom(this.config.animationSpeed);
+      }
+      if (notificationIdentifier === `CANTEEN_RESPONSE-MEALS-${this.identifier}`) {
+        this.loading = false;
+        const date = new Date(payload.date);
+        this.date = date.toLocaleDateString(config.locale || config.language);
+        this.extraDays = payload.extraDays;
+        if (payload.meals.length) {
+          this.closed = false;
+
+          // Show only keywords
+          payload.meals = payload.meals.filter(meal => this.config.showOnlyKeywords.length ? isInMeal(meal, this.config.showOnlyKeywords) : true)
+
+          // Blacklist keywords
+          payload.meals = payload.meals.filter(meal => this.config.blacklistKeywords.length ? !isInMeal(meal, this.config.blacklistKeywords) : true)
+
+          this.meals = payload.meals;
+          Log.debug(`[MMM-Canteen] ${this.meals}`);
+          this.updateDom(this.config.animationSpeed);
+        }
       }
     },
 
-    log (msg) {
+    log(msg) {
       if (this.config && this.config.debug) {
         Log.info(`${this.name}: ${JSON.stringify(msg)}`);
       }
@@ -90,9 +101,9 @@ Module.register(
   }
 );
 
-function isInMeal(meal, showOnlyKeywords) {
-  for (const keyword of showOnlyKeywords) {
-    if (meal.notes.lower().includes(keyword.lower()) || meal.category.lower().includes(keyword.lower())) {
+function isInMeal(meal, keywords) {
+  for (const keyword of keywords) {
+    if (meal.notes.map((note) => note.toLowerCase()).includes(keyword.toLowerCase()) || meal.category.toLowerCase().includes(keyword.toLowerCase())) {
       return true;
     }
   }

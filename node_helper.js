@@ -6,27 +6,23 @@ module.exports = NodeHelper.create({
     Log.log(`Starting module helper: ${this.name}`);
   },
 
-  socketNotificationReceived (notification, payload) {
-    if (notification === "CONFIG") {
-      this.config = payload.config;
-      this.collectData(payload.identifier);
-      const that = this;
-      setInterval(
-        () => {
-          that.collectData(payload.identifier);
-        },
-        this.config.updateInterval
+  async socketNotificationReceived(notification, payload) {
+    if (notification.includes("CANTEEN_REQUEST")) {
+      const identifier = notification.substring(
+        "CANTEEN_REQUEST".length + 1,
       );
+
+      this.collectData(identifier, payload);
     }
   },
 
-  async collectData (identifier) {
+  async collectData(identifier, payload) {
     let done = false;
     let extraDays = 0;
     const data = {};
 
     const date = new Date();
-    const [switchTimeHour, switchTimeMinute] = this.config.switchTime.split(":");
+    const [switchTimeHour, switchTimeMinute] = payload.switchTime.split(":");
     const switchTime = new Date().setHours(switchTimeHour, switchTimeMinute, 0, 0);
     const isAfterSwitchTime = date > switchTime;
 
@@ -40,31 +36,36 @@ module.exports = NodeHelper.create({
     data.identifier = identifier;
 
     while (extraDays < 7 && !done) {
-      const requestURL = `https://openmensa.org/api/v2/canteens/${this.config.canteen}/days/${data.date}/meals`;
-      Log.debug(`[MMM-Canteen] requestURL: ${requestURL}`);
-      const that = this;
+      const requestURL = `https://openmensa.org/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`;
+      Log.debug(`[MMM-Canteen] [${identifier}] requestURL: ${requestURL}`);
 
       try {
         const response = await fetch(requestURL);
 
         if (response.status === 404) {
-          Log.info(`[MMM-Canteen] Mensa closed on ${data.date} trying next day…`);
+          Log.info(`[MMM-Canteen] [${identifier}] Mensa closed on ${data.date} trying next day…`);
           data.extraDays = extraDays;
-          that.sendSocketNotification("CLOSED", data);
+          this.sendSocketNotification(
+            `CANTEEN_RESPONSE-CLOSED-${identifier}`,
+            data,
+          );
           date.setDate(date.getDate() + 1);
           data.date = new Date(date)
             .toISOString()
             .slice(0, 10);
           extraDays += 1;
         } else {
-          Log.info(`[MMM-Canteen] Received menu for ${data.date}.`);
+          Log.info(`[MMM-Canteen] [${identifier}] Received menu for ${data.date}.`);
           data.meals = await response.json();
-          Log.debug("MEALS", data);
-          that.sendSocketNotification("MEALS", data);
+          Log.debug("MEALS [${identifier}]", data);
+          this.sendSocketNotification(
+            `CANTEEN_RESPONSE-MEALS-${identifier}`,
+            data,
+          );
           done = true;
         }
       } catch (error) {
-        Log.error(`[MMM-Canteen] ${error}`);
+        Log.error(`[MMM-Canteen] [${identifier}] ${error}`);
       }
     }
   }
