@@ -2,24 +2,26 @@ const NodeHelper = require("node_helper");
 const Log = require("logger");
 
 module.exports = NodeHelper.create({
-  start() {
+  start () {
     Log.log(`Starting module helper: ${this.name}`);
   },
 
-  async socketNotificationReceived(notification, payload) {
-    if (!notification.startsWith("CANTEEN_REQUEST")) return;
+  async socketNotificationReceived (notification, payload) {
+    if (!notification.startsWith("CANTEEN_REQUEST")) {
+      return;
+    }
 
     const identifier = notification.substring("CANTEEN_REQUEST".length + 1);
     await this.collectData(identifier, payload);
   },
 
-  async collectData(identifier, payload) {
+  async collectData (identifier, payload) {
     const maxAttempts = 7;
     const data = {identifier};
     let extraDays = 0;
     let done = false;
 
-    let date = this.getAdjustedStartDate(payload.switchTime);
+    const date = this.getAdjustedStartDate(payload.switchTime);
     data.date = this.formatDate(date);
 
     while (extraDays < maxAttempts && !done) {
@@ -36,18 +38,16 @@ module.exports = NodeHelper.create({
 
           date.setDate(date.getDate() + 1);
           data.date = this.formatDate(date);
-          extraDays++;
-          continue;
+          extraDays += 1;
+        } else {
+          const meals = await response.json();
+          Log.info(`[MMM-Canteen] [${identifier}] Received menu for ${data.date}.`);
+          Log.debug(`[MMM-Canteen] [${identifier}] Meals:`, meals);
+
+          data.meals = meals;
+          this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, data);
+          done = true;
         }
-
-        const meals = await response.json();
-        Log.info(`[MMM-Canteen] [${identifier}] Received menu for ${data.date}.`);
-        Log.debug(`[MMM-Canteen] [${identifier}] Meals:`, meals);
-
-        data.meals = meals;
-        this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, data);
-        done = true;
-
       } catch (error) {
         Log.error(`[MMM-Canteen] [${identifier}] Error fetching meals: ${error}`);
         break;
@@ -55,7 +55,7 @@ module.exports = NodeHelper.create({
     }
   },
 
-  getAdjustedStartDate(switchTime) {
+  getAdjustedStartDate (switchTime) {
     const now = new Date();
     const [hour, minute] = switchTime.split(":").map(Number);
     const switchDate = new Date(now);
@@ -67,7 +67,7 @@ module.exports = NodeHelper.create({
     return now;
   },
 
-  formatDate(date) {
+  formatDate (date) {
     return date.toISOString().slice(0, 10);
   }
 });

@@ -20,30 +20,30 @@ Module.register("MMM-Canteen", {
   date: "",
   extraDays: 0,
 
-  start() {
+  start () {
     Log.info(`Starting module: ${this.name} with identifier: ${this.identifier}`);
     this.loadData();
     this.scheduleUpdate();
     this.updateDom();
   },
 
-  scheduleUpdate() {
+  scheduleUpdate () {
     setInterval(() => this.loadData(), this.config.updateInterval);
   },
 
-  loadData() {
+  loadData () {
     this.sendSocketNotification(`CANTEEN_REQUEST-${this.identifier}`, this.config);
   },
 
-  getStyles() {
+  getStyles () {
     return ["MMM-Canteen.css"];
   },
 
-  getTemplate() {
+  getTemplate () {
     return "MMM-Canteen.njk";
   },
 
-  getTemplateData() {
+  getTemplateData () {
     Log.log("[MMM-Canteen] Updating template data");
     return {
       date: this.date,
@@ -55,11 +55,13 @@ Module.register("MMM-Canteen", {
     };
   },
 
-  socketNotificationReceived(notificationIdentifier, payload) {
+  socketNotificationReceived (notificationIdentifier, payload) {
     const isClosed = notificationIdentifier === `CANTEEN_RESPONSE-CLOSED-${this.identifier}`;
     const isMeals = notificationIdentifier === `CANTEEN_RESPONSE-MEALS-${this.identifier}`;
 
-    if (!isClosed && !isMeals) return;
+    if (!isClosed && !isMeals) {
+      return;
+    }
 
     const dateObj = new Date(payload.date);
     const locale = config.locale || config.language || "en";
@@ -76,36 +78,37 @@ Module.register("MMM-Canteen", {
     }
 
     if (Array.isArray(payload.meals) && payload.meals.length) {
-      let meals = payload.meals;
+      let {meals} = payload;
 
       // Apply showOnlyKeywords filter
       if (this.config.showOnlyKeywords.length > 0) {
-        meals = meals.filter(meal => isInMeal(meal, this.config.showOnlyKeywords));
+        meals = meals.filter((meal) => this.isInMeal(meal, this.config.showOnlyKeywords));
       }
 
       // Apply blacklistKeywords filter
       if (this.config.blacklistKeywords.length > 0) {
-        meals = meals.filter(meal => !isInMeal(meal, this.config.blacklistKeywords));
+        meals = meals.filter((meal) => !this.isInMeal(meal, this.config.blacklistKeywords));
       }
 
       this.meals = meals;
       this.closed = false;
 
-      Log.debug(`[MMM-Canteen] Filtered meals:`, meals);
+      Log.debug("[MMM-Canteen] Filtered meals:", meals);
       this.updateDom(this.config.animationSpeed);
     }
+  },
+  // Helper function
+  isInMeal (meal, keywords) {
+    if (!meal || !Array.isArray(meal.notes) || typeof meal.category !== "string") {
+      return false;
+    }
+
+    const notes = meal.notes.map((note) => note.toLowerCase());
+    const category = meal.category.toLowerCase();
+
+    return keywords.some((keyword) => {
+      const key = keyword.toLowerCase();
+      return notes.includes(key) || category.includes(key);
+    });
   }
 });
-
-// Helper function
-function isInMeal(meal, keywords) {
-  if (!meal || !Array.isArray(meal.notes) || typeof meal.category !== "string") return false;
-
-  const notes = meal.notes.map(note => note.toLowerCase());
-  const category = meal.category.toLowerCase();
-
-  return keywords.some(keyword => {
-    const key = keyword.toLowerCase();
-    return notes.includes(key) || category.includes(key);
-  });
-}

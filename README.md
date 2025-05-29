@@ -37,7 +37,7 @@ To use this module, add it to the `config.js` file. Here is an example:
         status: "employees",
         switchTime: "15:00",
         showVeggieColumn: true,
-        showOnlyKeywords: ["vegan", "vegetarisch", "vegetarische"],
+        showOnlyKeywords: ["Veganes Gericht", "WOK"],
         blacklistKeywords: []
       }
     },

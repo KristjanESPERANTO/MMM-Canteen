@@ -23,6 +23,7 @@
     "Teeuw",
     "veget.",
     "vegetarisch",
+    "Veganes",
     "verfügbar"
   ],
   "ignorePaths": ["node_modules/**"],
