@@ -1,15 +1,7 @@
 const config = {
   tabWidth: 2,
-  useTabs: false,
-  overrides: [
-    {
-      files: "*.md",
-      options: {
-        parser: "markdown"
-      }
-    }
-  ],
-  trailingComma: "none"
+  trailingComma: "none",
+  useTabs: false
 };
 
 export default config;
