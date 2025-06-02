@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.5.3...v2.6.0) - 2025-06-02
+
+### Added
+
+- feature: add keyword filters for meals (#26)
+
+### Changed
+
+- chore: update devDependencies
+- ci: replace `stylelint` and `markdownlint` with plugins
+
 ## [2.5.3](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.5.2...v2.5.3) - 2025-05-04 - Maintenance update
 
 ### Changed
