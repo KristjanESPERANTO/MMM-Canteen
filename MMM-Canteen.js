@@ -9,7 +9,7 @@ Module.register("MMM-Canteen", {
     switchTime: "16:00",
     canteenName: "Kantine",
     animationSpeed: 500,
-    showVeggieColumn: false,
+    showVeggieColumn: true,
     showOnlyKeywords: [],
     blacklistKeywords: []
   },

@@ -36,7 +36,7 @@ To use this module, add it to the `config.js` file. Here is an example:
         canteen: 63,
         status: "employees",
         switchTime: "15:00",
-        showVeggieColumn: true,
+        showVeggieColumn: false,
         showOnlyKeywords: ["Veganes Gericht", "WOK"],
         blacklistKeywords: []
       }
@@ -76,7 +76,7 @@ It is also possible to add multiple instances. Here is a simple example:
 | `canteenName`      | Name of the canteen                                                                                                                                                         | String            | `"Kantine"`                        |
 | `switchTime`       | Shows the menu from next day, if switchTime < now                                                                                                                           | Timestamp (HH:mm) | `"16:00"`                          |
 | `animationSpeed`   | Speed of the update animation (in milliseconds).<br>If you don't want that the module blinks during an update, set the value to `0`. <br> **Possible values:** `0` - `5000` | Integer           | `500`                              |
-| `showVeggieColumn` | Show Veggie Column or not                                                                                                                                                   | Boolean           | `false`                            |
+| `showVeggieColumn` | Show Veggie Column or not                                                                                                                                                   | Boolean           | `true`                            |
 | `showOnlyKeywords` | Show only meals with case-insensitive keywords in notes or category                                                                                                         | String[]          | `[]`                               |
 | `blacklistKeywords` | Don't show meals with these case-insensitive keywords in notes or category                                                                                                  | String[]          | `[]`                               |
 <!-- prettier-ignore-end -->
