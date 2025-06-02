@@ -1,4 +1,6 @@
 const config = {
+  tabWidth: 2,
+  useTabs: false,
   overrides: [
     {
       files: "*.md",

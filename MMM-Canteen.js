@@ -1,82 +1,114 @@
 /* global config, Log, Module */
 
-Module.register(
-  "MMM-Canteen",
-  {
-    defaults: {
-      updateInterval: 10 * 60 * 1000, // 10 minutes
-      canteen: 63,
-      status: "employees", // Choose between "employees", "students", "pupils" and "others"
-      truncate: 100,
-      switchTime: "16:00",
-      debug: false,
-      canteenName: "Kantine",
-      animationSpeed: 500,
-      showVeggieColumn: true
-    },
+Module.register("MMM-Canteen", {
+  defaults: {
+    updateInterval: 20 * 60 * 1000, // 20 minutes
+    canteen: 63,
+    status: "employees", // Choose between "employees", "students", "pupils", "others"
+    truncate: 100,
+    switchTime: "16:00",
+    canteenName: "Kantine",
+    animationSpeed: 500,
+    showVeggieColumn: true,
+    showOnlyKeywords: [],
+    blacklistKeywords: []
+  },
 
-    loading: true,
-    closed: false,
-    meals: [],
+  loading: true,
+  closed: false,
+  meals: [],
+  date: "",
+  extraDays: 0,
 
-    start () {
-      Log.info(`Starting module: ${this.name} with identifier: ${this.identifier}`);
-      this.sendSocketNotification(
-        "CONFIG",
-        {
-          config: this.config,
-          identifier: this.identifier
-        }
-      );
-    },
+  start () {
+    Log.info(`Starting module: ${this.name} with identifier: ${this.identifier}`);
+    this.loadData();
+    this.scheduleUpdate();
+    this.updateDom();
+  },
 
-    getStyles () {
-      return ["MMM-Canteen.css"];
-    },
+  scheduleUpdate () {
+    setInterval(() => this.loadData(), this.config.updateInterval);
+  },
 
-    getTemplate () {
-      return "MMM-Canteen.njk";
-    },
+  loadData () {
+    this.sendSocketNotification(`CANTEEN_REQUEST-${this.identifier}`, this.config);
+  },
 
-    getTemplateData () {
-      Log.log("[MMM-Canteen] Updating template data");
-      return {
-        date: this.date,
-        extraDays: this.extraDays,
-        config: this.config,
-        loading: this.loading,
-        meals: this.meals,
-        closed: this.closed
-      };
-    },
+  getStyles () {
+    return ["MMM-Canteen.css"];
+  },
 
-    socketNotificationReceived (notification, payload) {
-      if (this.identifier === payload.identifier) {
-        Log.info(`[MMM-Canteen] Socket Notification received: ${notification}`);
-        this.loading = false;
-        const date = new Date(payload.date);
-        this.date = date.toLocaleDateString(config.locale || config.language);
-        this.extraDays = payload.extraDays;
+  getTemplate () {
+    return "MMM-Canteen.njk";
+  },
 
-        if (notification === "MEALS") {
-          if (payload.meals.length) {
-            this.closed = false;
-            this.meals = payload.meals;
-            Log.debug(`[MMM-Canteen] ${this.meals}`);
-          }
-        } else if (notification === "CLOSED") {
-          Log.log("[MMM-Canteen] Mensa hat heute geschlossen!");
-          this.date = "";
-          this.closed = true;
-        }
-        this.updateDom(this.config.animationSpeed);
-      }
-    },
+  getTemplateData () {
+    Log.log("[MMM-Canteen] Updating template data");
+    return {
+      date: this.date,
+      extraDays: this.extraDays,
+      config: this.config,
+      loading: this.loading,
+      meals: this.meals,
+      closed: this.closed
+    };
+  },
 
-    log (msg) {
-      if (this.config && this.config.debug) {
-        Log.info(`${this.name}: ${JSON.stringify(msg)}`);
-      }
+  socketNotificationReceived (notificationIdentifier, payload) {
+    const isClosed = notificationIdentifier === `CANTEEN_RESPONSE-CLOSED-${this.identifier}`;
+    const isMeals = notificationIdentifier === `CANTEEN_RESPONSE-MEALS-${this.identifier}`;
+
+    if (!isClosed && !isMeals) {
+      return;
     }
+
+    const dateObj = new Date(payload.date);
+    const locale = config.locale || config.language || "en";
+    this.date = dateObj.toLocaleDateString(locale);
+    this.extraDays = payload.extraDays;
+    this.loading = false;
+
+    if (isClosed) {
+      Log.info(`[MMM-Canteen] ${this.config.canteenName} is closed on ${this.date}`);
+      this.date = "";
+      this.closed = true;
+      this.updateDom(this.config.animationSpeed);
+      return;
+    }
+
+    if (Array.isArray(payload.meals) && payload.meals.length) {
+      let {meals} = payload;
+
+      // Apply showOnlyKeywords filter
+      if (this.config.showOnlyKeywords.length > 0) {
+        meals = meals.filter((meal) => this.isInMeal(meal, this.config.showOnlyKeywords));
+      }
+
+      // Apply blacklistKeywords filter
+      if (this.config.blacklistKeywords.length > 0) {
+        meals = meals.filter((meal) => !this.isInMeal(meal, this.config.blacklistKeywords));
+      }
+
+      this.meals = meals;
+      this.closed = false;
+
+      Log.debug("[MMM-Canteen] Filtered meals:", meals);
+      this.updateDom(this.config.animationSpeed);
+    }
+  },
+  // Helper function
+  isInMeal (meal, keywords) {
+    if (!meal || !Array.isArray(meal.notes) || typeof meal.category !== "string") {
+      return false;
+    }
+
+    const notes = meal.notes.map((note) => note.toLowerCase());
+    const category = meal.category.toLowerCase();
+
+    return keywords.some((keyword) => {
+      const key = keyword.toLowerCase();
+      return notes.includes(key) || category.includes(key);
+    });
   }
-);
+});
