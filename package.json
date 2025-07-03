@@ -21,6 +21,7 @@
     "https://github.com/KristjanESPERANTO/MMM-Canteen/graphs/contributors"
   ],
   "main": "MMM-Canteen.js",
+  "type": "commonjs",
   "scripts": {
     "lint": "eslint && prettier --check .",
     "lint:fix": "eslint --fix && prettier --write .",
