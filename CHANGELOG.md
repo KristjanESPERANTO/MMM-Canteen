@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.3](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.6.2...v2.6.3) - 2025-10-17
+
+### Changed
+
+- chore: replace `husky` with `simple-git-hooks` for pre-commit linting
+- chore: update actions/setup-node to v5
+- chore: update devDependencies
+
 ## [2.6.2](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.6.1...v2.6.2) - 2025-08-18
 
 ### Changed
