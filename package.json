@@ -25,7 +25,7 @@
   "scripts": {
     "lint": "eslint && prettier --check .",
     "lint:fix": "eslint --fix && prettier --write .",
-    "prepare": "husky",
+    "prepare": "simple-git-hooks",
     "test": "node --run lint && node --run test:spelling",
     "test:spelling": "cspell ."
   },
@@ -44,8 +44,11 @@
     "eslint": "^9.33.0",
     "eslint-plugin-import-x": "^4.16.1",
     "globals": "^16.3.0",
-    "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
-    "prettier": "^3.6.2"
+    "prettier": "^3.6.2",
+    "simple-git-hooks": "^2.13.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
   }
 }
