@@ -23,6 +23,7 @@
   "main": "MMM-Canteen.js",
   "type": "commonjs",
   "scripts": {
+    "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMM-Canteen/config.demo.js node --run start:wayland:dev",
     "lint": "eslint && prettier --check .",
     "lint:fix": "eslint --fix && prettier --write .",
     "prepare": "simple-git-hooks",
