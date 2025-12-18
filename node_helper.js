@@ -24,8 +24,14 @@ module.exports = NodeHelper.create({
     const date = this.getAdjustedStartDate(payload.switchTime);
     data.date = this.formatDate(date);
 
+    // Check if canteen exists in new API and determine which API to use
+    const useNewAPI = await this.checkCanteenInNewAPI(identifier, payload.canteen);
+
     while (extraDays < maxAttempts && !done) {
-      const requestURL = `https://openmensa.org/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`;
+      const requestURL = useNewAPI
+        ? `https://openmensa.jolo.software/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`
+        : `https://openmensa.org/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`;
+
       Log.debug(`[MMM-Canteen] [${identifier}] requestURL: ${requestURL}`);
 
       try {
@@ -53,6 +59,20 @@ module.exports = NodeHelper.create({
         break;
       }
     }
+  },
+
+  async checkCanteenInNewAPI (identifier, canteenId) {
+    try {
+      const response = await fetch(`https://openmensa.jolo.software/api/v2/canteens/${canteenId}`);
+      if (response.status === 200) {
+        Log.info(`[MMM-Canteen] [${identifier}] Found canteen in new API, using new endpoint.`);
+        return true;
+      }
+    } catch (error) {
+      Log.debug(`[MMM-Canteen] [${identifier}] New API check failed: ${error}`);
+    }
+    Log.info(`[MMM-Canteen] [${identifier}] Canteen not in new API, falling back to old API.`);
+    return false;
   },
 
   getAdjustedStartDate (switchTime) {

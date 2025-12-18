@@ -2,7 +2,9 @@
 
 **MMM-Canteen** is a module for the [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) project.
 
-It shows the menu including the prices of canteens from universities in Germany and Switzerland (based on [openmensa.org](https://openmensa.org)).
+It shows the menu including the prices of canteens from universities in Germany and Switzerland.
+
+The module automatically uses the newer [openmensa.jolo.software](https://openmensa.jolo.software/) API when available, and falls back to [openmensa.org](https://openmensa.org) for canteens not yet supported by the new API.
 
 ## Screenshots
 
