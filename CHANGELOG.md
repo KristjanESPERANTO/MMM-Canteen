@@ -1,9 +1,20 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [2.7.0](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.6.3...v2.7.0) (2025-12-18)
+
+### Features
+
+- add demo configuration ([717678b](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/717678bc4eeab760f2c22d7d5b68e136c98e7300))
+- add openmensa new API with fallback detection ([80a535d](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/80a535d53fcdb1dd4cc410c1d64d7f033830fc40))
+
+### Chores
+
+- setup commit-and-tag-version ([638922f](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/638922f3bf623262c527d0467d8d7e3b0d469592))
+- update actions/checkout and actions/setup-node to v6 ([c8212aa](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/c8212aac43287a811e46f7b52754bda5dd998d44))
+- update contributors format in package.json ([2091fa9](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/2091fa9e78dc0bfceca89559ea7e9d60320724e8))
+- update devDependencies ([be75602](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/be756029df004531f44a8470f7adf3d54e808fe1))
 
 ## [2.6.3](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.6.2...v2.6.3) - 2025-10-17
 
