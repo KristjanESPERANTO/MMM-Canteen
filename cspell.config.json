@@ -2,12 +2,14 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "Bernburg",
     "bumpp",
     "elif",
     "endfor",
     "Foerster",
     "Gericht",
     "geschlossen",
+    "Harzmensa",
     "heute",
     "Kantine",
     "Kein",
@@ -24,7 +26,8 @@
     "veget.",
     "vegetarisch",
     "Veganes",
-    "verfügbar"
+    "verfügbar",
+    "Weinbergmensa"
   ],
   "ignorePaths": ["node_modules/**"],
   "dictionaries": ["node"]
