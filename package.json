@@ -29,7 +29,7 @@
     "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMM-Canteen/config.demo.js node --run start:wayland:dev",
     "lint": "eslint && prettier --check .",
     "lint:fix": "eslint --fix && prettier --write .",
-    "prepare": "simple-git-hooks",
+    "prepare": "simple-git-hooks || true",
     "release": "commit-and-tag-version",
     "test": "node --run lint && node --run test:spelling",
     "test:spelling": "cspell ."
