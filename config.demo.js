@@ -8,7 +8,7 @@
 let config = {
   port: 8080,
   address: "localhost",
-  logLevel: ["INFO", "LOG", "WARN", "ERROR"],
+  logLevel: ["INFO", "LOG", "WARN", "ERROR", "DEBUG"],
   timeFormat: 24,
   units: "metric",
 
