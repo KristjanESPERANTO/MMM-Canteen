@@ -39,20 +39,123 @@ Module.register("MMM-Canteen", {
     return ["MMM-Canteen.css"];
   },
 
-  getTemplate () {
-    return "MMM-Canteen.njk";
+  getDom () {
+    const wrapper = document.createElement("div");
+
+    const header = document.createElement("header");
+    header.textContent = `${this.config.canteenName}      ${this.date}`;
+    wrapper.appendChild(header);
+
+    if (this.loading) {
+      const loading = document.createElement("div");
+      loading.classList.add("small", "dimmed", "light");
+      loading.textContent = this.translate("LOADING");
+      wrapper.appendChild(loading);
+      return wrapper;
+    }
+
+    if (this.closed) {
+      const closed = document.createElement("div");
+      closed.classList.add("small");
+      closed.innerHTML = `Kein Speiseplan für die <br> nächsten ${this.extraDays} Tage verfügbar.`;
+      wrapper.appendChild(closed);
+      return wrapper;
+    }
+
+    wrapper.appendChild(this.buildTable());
+    return wrapper;
   },
 
-  getTemplateData () {
-    Log.log("[MMM-Canteen] Updating template data");
-    return {
-      date: this.date,
-      extraDays: this.extraDays,
-      config: this.config,
-      loading: this.loading,
-      meals: this.meals,
-      closed: this.closed
-    };
+  buildTable () {
+    const tableWrapper = document.createElement("div");
+    tableWrapper.classList.add("wrapper");
+    const table = document.createElement("table");
+    table.appendChild(this.buildTableHeader());
+    const tbody = document.createElement("tbody");
+    for (const meal of this.meals) {
+      tbody.appendChild(this.buildMealRow(meal));
+    }
+    table.appendChild(tbody);
+    tableWrapper.appendChild(table);
+    return tableWrapper;
+  },
+
+  buildTableHeader () {
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    headerRow.classList.add("bold");
+
+    const thTitle = document.createElement("td");
+    thTitle.classList.add("title");
+    thTitle.textContent = "Gericht";
+    headerRow.appendChild(thTitle);
+
+    const thPrice = document.createElement("td");
+    thPrice.classList.add("price");
+    thPrice.textContent = "Preis";
+    headerRow.appendChild(thPrice);
+
+    if (this.config.showVeggieColumn) {
+      const thVeggie = document.createElement("td");
+      thVeggie.classList.add("veggie");
+      thVeggie.textContent = "veggie";
+      headerRow.appendChild(thVeggie);
+    }
+
+    thead.appendChild(headerRow);
+    return thead;
+  },
+
+  buildMealRow (meal) {
+    const row = document.createElement("tr");
+    row.classList.add("light", "bright");
+    const hasPrice = meal.prices[this.config.status] > 0;
+
+    const tdTitle = document.createElement("td");
+    tdTitle.classList.add("title");
+    tdTitle.textContent = this.truncateText(meal.name, this.config.truncate);
+    row.appendChild(tdTitle);
+
+    const tdPrice = document.createElement("td");
+    tdPrice.classList.add("price");
+    if (hasPrice) {
+      tdPrice.textContent = meal.prices[this.config.status].toLocaleString("de-DE", {style: "currency", currency: "EUR"});
+    }
+    row.appendChild(tdPrice);
+
+    if (this.config.showVeggieColumn) {
+      row.appendChild(this.buildVeggieCell(meal, hasPrice));
+    }
+
+    return row;
+  },
+
+  buildVeggieCell (meal, hasPrice) {
+    const td = document.createElement("td");
+    if (!hasPrice) {
+      td.classList.add("veggie");
+      return td;
+    }
+    const notes = meal.notes || [];
+    const category = meal.category || "";
+    if (notes.includes("vegan") || category === "Vegan") {
+      td.classList.add("veggie", "vegan");
+      td.textContent = "vegan";
+    } else if (notes.includes("vegetarisch") || category === "Vegetarisch") {
+      td.classList.add("veggie", "vegetarian");
+      td.textContent = "veget.";
+    } else {
+      td.classList.add("veggie");
+      td.textContent = "-";
+    }
+    return td;
+  },
+
+  truncateText (text, length) {
+    if (text.length <= length) {
+      return text;
+    }
+    return `${text.slice(0, length)}…`;
   },
 
   socketNotificationReceived (notificationIdentifier, payload) {
