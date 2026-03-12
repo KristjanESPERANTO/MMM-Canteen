@@ -32,13 +32,13 @@ module.exports = NodeHelper.create({
         ? `https://openmensa.jolo.software/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`
         : `https://openmensa.org/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`;
 
-      Log.debug(`[MMM-Canteen] [${identifier}] requestURL: ${requestURL}`);
+      Log.debug(`[${identifier}] requestURL: ${requestURL}`);
 
       try {
         const response = await fetch(requestURL);
 
         if (response.status === 404) {
-          Log.info(`[MMM-Canteen] [${identifier}] Mensa closed on ${data.date}, trying next day…`);
+          Log.info(`[${identifier}] Mensa closed on ${data.date}, trying next day…`);
           data.extraDays = extraDays;
           this.sendSocketNotification(`CANTEEN_RESPONSE-CLOSED-${identifier}`, data);
 
@@ -47,15 +47,15 @@ module.exports = NodeHelper.create({
           extraDays += 1;
         } else {
           const meals = await response.json();
-          Log.info(`[MMM-Canteen] [${identifier}] Received menu for ${data.date}.`);
-          Log.debug(`[MMM-Canteen] [${identifier}] Meals:`, meals);
+          Log.info(`[${identifier}] Received menu for ${data.date}.`);
+          Log.debug(`[${identifier}] Meals:`, meals);
 
           data.meals = meals;
           this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, data);
           done = true;
         }
       } catch (error) {
-        Log.error(`[MMM-Canteen] [${identifier}] Error fetching meals: ${error}`);
+        Log.error(`[${identifier}] Error fetching meals: ${error}`);
         break;
       }
     }
@@ -65,13 +65,13 @@ module.exports = NodeHelper.create({
     try {
       const response = await fetch(`https://openmensa.jolo.software/api/v2/canteens/${canteenId}`);
       if (response.status === 200) {
-        Log.info(`[MMM-Canteen] [${identifier}] Found canteen in new API, using new endpoint.`);
+        Log.info(`[${identifier}] Found canteen in new API, using new endpoint.`);
         return true;
       }
     } catch (error) {
-      Log.debug(`[MMM-Canteen] [${identifier}] New API check failed: ${error}`);
+      Log.debug(`[${identifier}] New API check failed: ${error}`);
     }
-    Log.info(`[MMM-Canteen] [${identifier}] Canteen not in new API, falling back to old API.`);
+    Log.info(`[${identifier}] Canteen not in new API, falling back to old API.`);
     return false;
   },
 
