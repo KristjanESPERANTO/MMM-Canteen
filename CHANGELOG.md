@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.8.0](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.7.0...v2.8.0) (2026-03-12)
+
+
+### Features
+
+* add translations for hardcoded strings ([7cbb899](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/7cbb899e22d7a1feebea5ffafca1df3ff0fbfef0))
+
+
+### Chores
+
+* add cspell to lint-staged for spell checking ([f165036](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/f1650363d717be58d00f8f45499da68d22c8a9ca))
+* add DEBUG level to logLevel ([af7ed77](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/af7ed77830a514f7fc2785e553a3e8edbc66d9b6))
+* change runner from ubuntu-latest to ubuntu-slim in automated tests ([cfd43d5](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/cfd43d58859342ecb4774310ef55efcda0b93fc5))
+* fix eslint config to use correct plugin extends ([1a855e3](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/1a855e32b44030b8b3afc8f7fc9338c6ee20c9a1))
+* remove module prefix from log messages ([e531a10](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/e531a10bf809e29b0b889d235193aa0a90abc9f6))
+* remove obsolete cspell words leftover from NJK template ([f26a2f7](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/f26a2f7eecc4317a643fb9de4cd8523a6e5e384e))
+* update .prettierignore to include CHANGELOG.md ([8023aa9](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/8023aa95dd1a6db6f75b9ca851d5ad5197643a33))
+* update devDependencies ([2e42b7e](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/2e42b7e9702c4b3cbfc4281ce2c8e17f9797dcab))
+* update prepare script to ensure it runs without failure ([9c51002](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/9c510023bcf7739454c3122b03d10baa8e5e18c6))
+
 ## [2.7.0](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.6.3...v2.7.0) (2025-12-18)
 
 ### Features
