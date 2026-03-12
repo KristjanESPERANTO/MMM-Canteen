@@ -50,7 +50,7 @@ module.exports = NodeHelper.create({
           Log.info(`[${identifier}] Received menu for ${data.date}.`);
           Log.debug(`[${identifier}] Meals:`, meals);
 
-          data.meals = meals;
+          data.meals = this.filterMeals(meals, payload);
           this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, data);
           done = true;
         }
@@ -89,5 +89,28 @@ module.exports = NodeHelper.create({
 
   formatDate (date) {
     return date.toISOString().slice(0, 10);
+  },
+
+  filterMeals (meals, config) {
+    let filtered = meals;
+    if (config.showOnlyKeywords.length > 0) {
+      filtered = filtered.filter((meal) => this.isInMeal(meal, config.showOnlyKeywords));
+    }
+    if (config.blacklistKeywords.length > 0) {
+      filtered = filtered.filter((meal) => !this.isInMeal(meal, config.blacklistKeywords));
+    }
+    return filtered;
+  },
+
+  isInMeal (meal, keywords) {
+    if (!meal || !Array.isArray(meal.notes) || typeof meal.category !== "string") {
+      return false;
+    }
+    const notes = meal.notes.map((note) => note.toLowerCase());
+    const category = meal.category.toLowerCase();
+    return keywords.some((keyword) => {
+      const key = keyword.toLowerCase();
+      return notes.includes(key) || category.includes(key);
+    });
   }
 });

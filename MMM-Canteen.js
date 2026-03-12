@@ -181,37 +181,10 @@ Module.register("MMM-Canteen", {
     }
 
     if (Array.isArray(payload.meals) && payload.meals.length) {
-      let {meals} = payload;
-
-      // Apply showOnlyKeywords filter
-      if (this.config.showOnlyKeywords.length > 0) {
-        meals = meals.filter((meal) => this.isInMeal(meal, this.config.showOnlyKeywords));
-      }
-
-      // Apply blacklistKeywords filter
-      if (this.config.blacklistKeywords.length > 0) {
-        meals = meals.filter((meal) => !this.isInMeal(meal, this.config.blacklistKeywords));
-      }
-
-      this.meals = meals;
+      this.meals = payload.meals;
       this.closed = false;
-
-      Log.debug("[MMM-Canteen] Filtered meals:", meals);
+      Log.debug("[MMM-Canteen] Meals:", this.meals);
       this.updateDom(this.config.animationSpeed);
     }
-  },
-  // Helper function
-  isInMeal (meal, keywords) {
-    if (!meal || !Array.isArray(meal.notes) || typeof meal.category !== "string") {
-      return false;
-    }
-
-    const notes = meal.notes.map((note) => note.toLowerCase());
-    const category = meal.category.toLowerCase();
-
-    return keywords.some((keyword) => {
-      const key = keyword.toLowerCase();
-      return notes.includes(key) || category.includes(key);
-    });
   }
 });
