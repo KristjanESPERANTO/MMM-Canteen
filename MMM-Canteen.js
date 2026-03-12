@@ -39,6 +39,13 @@ Module.register("MMM-Canteen", {
     return ["MMM-Canteen.css"];
   },
 
+  getTranslations () {
+    return {
+      de: "translations/de.json",
+      en: "translations/en.json"
+    };
+  },
+
   getDom () {
     const wrapper = document.createElement("div");
 
@@ -57,7 +64,7 @@ Module.register("MMM-Canteen", {
     if (this.closed) {
       const closed = document.createElement("div");
       closed.classList.add("small");
-      closed.innerHTML = `Kein Speiseplan für die <br> nächsten ${this.extraDays} Tage verfügbar.`;
+      closed.innerHTML = this.translate("CLOSED_MESSAGE", {extraDays: this.extraDays});
       wrapper.appendChild(closed);
       return wrapper;
     }
@@ -87,18 +94,18 @@ Module.register("MMM-Canteen", {
 
     const thTitle = document.createElement("td");
     thTitle.classList.add("title");
-    thTitle.textContent = "Gericht";
+    thTitle.textContent = this.translate("COLUMN_DISH");
     headerRow.appendChild(thTitle);
 
     const thPrice = document.createElement("td");
     thPrice.classList.add("price");
-    thPrice.textContent = "Preis";
+    thPrice.textContent = this.translate("COLUMN_PRICE");
     headerRow.appendChild(thPrice);
 
     if (this.config.showVeggieColumn) {
       const thVeggie = document.createElement("td");
       thVeggie.classList.add("veggie");
-      thVeggie.textContent = "veggie";
+      thVeggie.textContent = this.translate("COLUMN_VEGGIE");
       headerRow.appendChild(thVeggie);
     }
 
@@ -140,10 +147,10 @@ Module.register("MMM-Canteen", {
     const category = meal.category || "";
     if (notes.includes("vegan") || category === "Vegan") {
       td.classList.add("veggie", "vegan");
-      td.textContent = "vegan";
+      td.textContent = this.translate("VEGAN");
     } else if (notes.includes("vegetarisch") || category === "Vegetarisch") {
       td.classList.add("veggie", "vegetarian");
-      td.textContent = "veget.";
+      td.textContent = this.translate("VEGETARIAN");
     } else {
       td.classList.add("veggie");
       td.textContent = "-";

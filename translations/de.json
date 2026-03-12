@@ -1,0 +1,8 @@
+{
+  "CLOSED_MESSAGE": "Kein Speiseplan für die<br>nächsten {extraDays} Tage verfügbar.",
+  "COLUMN_DISH": "Gericht",
+  "COLUMN_PRICE": "Preis",
+  "COLUMN_VEGGIE": "veggie",
+  "VEGAN": "vegan",
+  "VEGETARIAN": "veget."
+}
