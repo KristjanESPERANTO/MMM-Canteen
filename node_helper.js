@@ -4,6 +4,7 @@ const Log = require("logger");
 module.exports = NodeHelper.create({
   start () {
     Log.log(`Starting module helper: ${this.name}`);
+    this.apiCache = new Map();
   },
 
   async socketNotificationReceived (notification, payload) {
@@ -62,17 +63,24 @@ module.exports = NodeHelper.create({
   },
 
   async checkCanteenInNewAPI (identifier, canteenId) {
+    if (this.apiCache.has(canteenId)) {
+      return this.apiCache.get(canteenId);
+    }
+    let useNewAPI = false;
     try {
       const response = await fetch(`https://openmensa.jolo.software/api/v2/canteens/${canteenId}`);
       if (response.status === 200) {
         Log.info(`[${identifier}] Found canteen in new API, using new endpoint.`);
-        return true;
+        useNewAPI = true;
       }
     } catch (error) {
       Log.debug(`[${identifier}] New API check failed: ${error}`);
     }
-    Log.info(`[${identifier}] Canteen not in new API, falling back to old API.`);
-    return false;
+    if (!useNewAPI) {
+      Log.info(`[${identifier}] Canteen not in new API, falling back to old API.`);
+    }
+    this.apiCache.set(canteenId, useNewAPI);
+    return useNewAPI;
   },
 
   getAdjustedStartDate (switchTime) {
