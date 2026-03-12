@@ -166,14 +166,11 @@ Module.register("MMM-Canteen", {
       return;
     }
 
-    const dateObj = new Date(payload.date);
-    const locale = config.locale || config.language || "en";
-    this.date = dateObj.toLocaleDateString(locale);
-    this.extraDays = payload.extraDays;
     this.loading = false;
 
     if (isClosed) {
-      Log.info(`[MMM-Canteen] ${this.config.canteenName} is closed on ${this.date}`);
+      Log.info(`[MMM-Canteen] ${this.config.canteenName} is closed`);
+      this.extraDays = payload.extraDays;
       this.date = "";
       this.closed = true;
       this.updateDom(this.config.animationSpeed);
@@ -181,6 +178,9 @@ Module.register("MMM-Canteen", {
     }
 
     if (Array.isArray(payload.meals) && payload.meals.length) {
+      const dateObj = new Date(payload.date);
+      const locale = config.locale || config.language || "en";
+      this.date = dateObj.toLocaleDateString(locale);
       this.meals = payload.meals;
       this.closed = false;
       Log.debug("[MMM-Canteen] Meals:", this.meals);

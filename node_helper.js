@@ -18,20 +18,12 @@ module.exports = NodeHelper.create({
 
   async collectData (identifier, payload) {
     const maxAttempts = 7;
-    const data = {identifier};
-    let extraDays = 0;
-    let done = false;
-
+    const baseURL = await this.getBaseURL(identifier, payload.canteen);
     const date = this.getAdjustedStartDate(payload.switchTime);
-    data.date = this.formatDate(date);
 
-    // Check if canteen exists in new API and determine which API to use
-    const useNewAPI = await this.checkCanteenInNewAPI(identifier, payload.canteen);
-
-    while (extraDays < maxAttempts && !done) {
-      const requestURL = useNewAPI
-        ? `https://openmensa.jolo.software/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`
-        : `https://openmensa.org/api/v2/canteens/${payload.canteen}/days/${data.date}/meals`;
+    for (let extraDays = 0; extraDays < maxAttempts; extraDays += 1) {
+      const dateString = this.formatDate(date);
+      const requestURL = `${baseURL}/canteens/${payload.canteen}/days/${dateString}/meals`;
 
       Log.debug(`[${identifier}] requestURL: ${requestURL}`);
 
@@ -39,27 +31,38 @@ module.exports = NodeHelper.create({
         const response = await fetch(requestURL);
 
         if (response.status === 404) {
-          Log.info(`[${identifier}] Mensa closed on ${data.date}, trying next day…`);
-          data.extraDays = extraDays;
-          this.sendSocketNotification(`CANTEEN_RESPONSE-CLOSED-${identifier}`, data);
-
+          Log.info(`[${identifier}] Mensa closed on ${dateString}, trying next day…`);
           date.setDate(date.getDate() + 1);
-          data.date = this.formatDate(date);
-          extraDays += 1;
-        } else {
+        } else if (response.ok) {
           const meals = await response.json();
-          Log.info(`[${identifier}] Received menu for ${data.date}.`);
+          Log.info(`[${identifier}] Received menu for ${dateString}.`);
           Log.debug(`[${identifier}] Meals:`, meals);
 
-          data.meals = this.filterMeals(meals, payload);
-          this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, data);
-          done = true;
+          this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, {
+            date: dateString,
+            meals: this.filterMeals(meals, payload)
+          });
+          return;
+        } else {
+          Log.warn(`[${identifier}] Unexpected response status: ${response.status}`);
+          break;
         }
       } catch (error) {
         Log.error(`[${identifier}] Error fetching meals: ${error}`);
         break;
       }
     }
+
+    this.sendSocketNotification(`CANTEEN_RESPONSE-CLOSED-${identifier}`, {
+      extraDays: maxAttempts
+    });
+  },
+
+  async getBaseURL (identifier, canteenId) {
+    const useNewAPI = await this.checkCanteenInNewAPI(identifier, canteenId);
+    return useNewAPI
+      ? "https://openmensa.jolo.software/api/v2"
+      : "https://openmensa.org/api/v2";
   },
 
   async checkCanteenInNewAPI (identifier, canteenId) {
