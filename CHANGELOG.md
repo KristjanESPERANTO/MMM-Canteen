@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.8.1](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.8.0...v2.8.1) (2026-09-12)
+
+### Bug Fixes
+
+* clear update interval on module stop ([4f52cfa](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/4f52cfa595e9450d67f8df0c4c6efd5bcf97e387))
+* use locale-based date formatting for correct local day ([a175833](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/a175833f3d33e218062b8affa6ba8284f5793f82))
+
+### Chores
+
+* update devDependencies ([09671b4](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/09671b48434a779451ff0605813ab2a576780d2d))
+* update GitHub Actions ([6328c60](https://github.com/KristjanESPERANTO/MMM-Canteen/commit/6328c60232d201d8cd511d4a1b3c838eb242790f))
 ## [2.8.0](https://github.com/KristjanESPERANTO/MMM-Canteen/compare/v2.7.0...v2.8.0) (2026-03-12)
 
 
