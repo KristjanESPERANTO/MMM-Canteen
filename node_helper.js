@@ -19,43 +19,58 @@ module.exports = NodeHelper.create({
   async collectData (identifier, payload) {
     const maxAttempts = 7;
     const baseURL = await this.getBaseURL(identifier, payload.canteen);
-    const date = this.getAdjustedStartDate(payload.switchTime);
+    const startDate = this.getAdjustedStartDate(payload.switchTime);
 
-    for (let extraDays = 0; extraDays < maxAttempts; extraDays += 1) {
-      const dateString = this.formatDate(date);
-      const requestURL = `${baseURL}/canteens/${payload.canteen}/days/${dateString}/meals`;
+    // Days are requested in parallel; the first day with meals wins
+    const dates = [...Array(maxAttempts).keys()].map((extraDays) => this.addDays(startDate, extraDays));
+    const results = await Promise.all(dates.map((date) => this.fetchMealsForDate({identifier, baseURL, payload, date})));
+    const openDay = results.find((result) => result.meals);
 
-      Log.debug(`[${identifier}] requestURL: ${requestURL}`);
-
-      try {
-        const response = await fetch(requestURL);
-
-        if (response.status === 404) {
-          Log.info(`[${identifier}] Mensa closed on ${dateString}, trying next day…`);
-          date.setDate(date.getDate() + 1);
-        } else if (response.ok) {
-          const meals = await response.json();
-          Log.info(`[${identifier}] Received menu for ${dateString}.`);
-          Log.debug(`[${identifier}] Meals:`, meals);
-
-          this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, {
-            date: dateString,
-            meals: this.filterMeals(meals, payload)
-          });
-          return;
-        } else {
-          Log.warn(`[${identifier}] Unexpected response status: ${response.status}`);
-          break;
-        }
-      } catch (error) {
-        Log.error(`[${identifier}] Error fetching meals: ${error}`);
-        break;
-      }
+    if (openDay) {
+      this.sendSocketNotification(`CANTEEN_RESPONSE-MEALS-${identifier}`, {
+        date: openDay.dateString,
+        meals: openDay.meals
+      });
+      return;
     }
 
     this.sendSocketNotification(`CANTEEN_RESPONSE-CLOSED-${identifier}`, {
       extraDays: maxAttempts
     });
+  },
+
+  addDays (date, amount) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + amount);
+    return result;
+  },
+
+  async fetchMealsForDate ({identifier, baseURL, payload, date}) {
+    const dateString = this.formatDate(date);
+    const requestURL = `${baseURL}/canteens/${payload.canteen}/days/${dateString}/meals`;
+
+    Log.debug(`[${identifier}] requestURL: ${requestURL}`);
+
+    try {
+      const response = await fetch(requestURL);
+
+      if (response.ok) {
+        const meals = await response.json();
+        Log.info(`[${identifier}] Received menu for ${dateString}.`);
+        Log.debug(`[${identifier}] Meals:`, meals);
+        return {dateString, meals: this.filterMeals(meals, payload)};
+      }
+
+      if (response.status === 404) {
+        Log.info(`[${identifier}] Mensa closed on ${dateString}.`);
+      } else {
+        Log.warn(`[${identifier}] Unexpected response status for ${dateString}: ${response.status}`);
+      }
+    } catch (error) {
+      Log.error(`[${identifier}] Error fetching meals for ${dateString}: ${error}`);
+    }
+
+    return {dateString, meals: null};
   },
 
   async getBaseURL (identifier, canteenId) {
