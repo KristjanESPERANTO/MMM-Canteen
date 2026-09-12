@@ -19,6 +19,7 @@ Module.register("MMM-Canteen", {
   meals: [],
   date: "",
   extraDays: 0,
+  updateTimer: null,
 
   start () {
     Log.info(`Starting module: ${this.name} with identifier: ${this.identifier}`);
@@ -27,8 +28,12 @@ Module.register("MMM-Canteen", {
     this.updateDom();
   },
 
+  stop () {
+    clearInterval(this.updateTimer);
+  },
+
   scheduleUpdate () {
-    setInterval(() => this.loadData(), this.config.updateInterval);
+    this.updateTimer = setInterval(() => this.loadData(), this.config.updateInterval);
   },
 
   loadData () {
