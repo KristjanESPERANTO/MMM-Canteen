@@ -99,7 +99,8 @@ module.exports = NodeHelper.create({
   },
 
   formatDate (date) {
-    return date.toISOString().slice(0, 10);
+    // Locale "en-CA" formats as YYYY-MM-DD using local date components
+    return date.toLocaleDateString("en-CA");
   },
 
   filterMeals (meals, config) {
